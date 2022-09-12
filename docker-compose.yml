@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  redis:
+    image: "redis/redis-stack:6.2.4-v2"
+    restart: always
+    ports:
+      - ${REDIS_PORT}:6379
+
+  worker:
+    build:
+      context: ./
+      dockerfile: default.Dockerfile
+    command: arq app.arq.worker.ArqWorkerSettings
+    environment:
+      - TESTING=False
+      - DEBUG=False
+      - REDIS_OM_URL=redis://redis:${REDIS_PORT}
+      - REDIS_CACHE_URL=redis://redis:${REDIS_PORT}
+      - ARQ_REDIS_URL=redis://redis:${REDIS_PORT}
+    restart: always
+    depends_on:
+      - redis
+
+  api:
+    build:
+      context: ./
+      dockerfile: default.Dockerfile
+    command: gunicorn -k uvicorn.workers.UvicornWorker app.main:app
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      - TESTING=False
+      - DEBUG=False
+      - REDIS_OM_URL=redis://redis:${REDIS_PORT}
+      - REDIS_CACHE_URL=redis://redis:${REDIS_PORT}
+      - REDIS_ARQ_URL=redis://redis:${REDIS_PORT}
+    restart: always
+    depends_on:
+      - redis
