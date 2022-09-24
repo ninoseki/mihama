@@ -12,6 +12,7 @@ from .osv import (  # noqa: F401
     OSV_BUCKET_BASE_URL,
     OSV_BUCKET_DOWNLOAD_TIMEOUT,
     OSV_ECOSYSTEMS,
+    OSV_QUERY_BATCH_MAX_AT_ONCE,
 )
 from .redis import (  # noqa: F401
     REDIS_CACHE_NAMESPACE,
