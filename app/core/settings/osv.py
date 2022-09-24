@@ -19,3 +19,9 @@ OSV_BUCKET_DOWNLOAD_TIMEOUT: int = config(
     cast=int,
     default=180,
 )
+
+OSV_QUERY_BATCH_MAX_AT_ONCE: int = config(
+    "OSV_QUERY_BATCH_MAX_AT_ONCE",
+    cast=int,
+    default=100,
+)

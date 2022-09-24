@@ -6,6 +6,7 @@ from fastapi import APIRouter
 
 from app import crud, models, schemas
 from app.cache import cache
+from app.core import settings
 
 router = APIRouter()
 
@@ -32,7 +33,11 @@ async def cached_query(query: schemas.Query) -> schemas.Vulnerabilities:
     return schemas.Vulnerabilities(vulns=vulns)
 
 
-async def batch_query(queries: schemas.BatchQuery, *, max_at_once: int = 100):
+async def batch_query(
+    queries: schemas.BatchQuery,
+    *,
+    max_at_once: int = settings.OSV_QUERY_BATCH_MAX_AT_ONCE
+):
     jobs = [functools.partial(cached_query, q) for q in queries.queries]
     results = await aiometer.run_all(jobs, max_at_once=max_at_once)
     return schemas.BatchResponse(results=results)
