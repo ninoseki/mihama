@@ -1,0 +1,44 @@
+{
+	"type": "library",
+	"bom-ref": "cf7310a3-4c4f-444e-8ddb-4c07b12bf81a",
+	"author": "Kirill Simonov",
+	"name": "PyYAML",
+	"version": "5.1.1",
+	"licenses": [
+		{
+			"expression": "MIT"
+		}
+	],
+	"purl": "pkg:pypi/pyyaml@5.1.1",
+	"components": [
+		{
+			"type": "library",
+			"bom-ref": "32df784e-a081-4335-a66b-55f889b0d018",
+			"name": "SecretStorage",
+			"version": "3.3.2",
+			"purl": "pkg:pypi/secretstorage@3.3.2",
+			"components": [
+				{
+					"type": "library",
+					"bom-ref": "ed09c722-1b8e-483b-8e15-d8c2f9237f80",
+					"name": "asgiref",
+					"version": "3.5.0",
+					"purl": "pkg:pypi/asgiref@3.5.0"
+				},
+				{
+					"type": "library",
+					"bom-ref": "15700b18-ce2f-4d7d-a3b1-ca937b74fe4b",
+					"name": "cachy",
+					"version": "0.3.0",
+					"purl": "pkg:pypi/cachy@0.3.0"
+				}
+			]
+		},
+		{
+			"type": "library",
+			"bom-ref": "15700b18-ce2f-4d7d-a3b1-ca937b74fe4b",
+			"name": "foo",
+			"version": "0.3.0"
+		}
+	]
+}
