@@ -7,6 +7,7 @@ REDIS_OM_URL: DatabaseURL = config(
     cast=DatabaseURL,
     default="redis://localhost:6379",
 )
+REDIS_OM_BATCH_SIZE: int = config("REDIS_OM_BATCH_SIZE", cast=int, default=100)
 
 REDIS_CACHE_URL: DatabaseURL = config(
     "REDIS_CACHE_URL",
