@@ -17,6 +17,7 @@ from .redis import (  # noqa: F401
     REDIS_CACHE_NAMESPACE,
     REDIS_CACHE_TTL,
     REDIS_CACHE_URL,
+    REDIS_OM_BATCH_SIZE,
     REDIS_OM_URL,
 )
 
