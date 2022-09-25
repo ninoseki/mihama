@@ -1,38 +1,42 @@
-from aredis_om.model.model import Expression
+from aredis_om.model.model import Expression, FindQuery
 
 from app import models, schemas
 from app.core import settings
 from app.query import normalize_query
 
+PACKAGE = schemas.BasePackage | schemas.Package
+
+
+def build_find_query_by_package(
+    package: PACKAGE,
+) -> FindQuery:
+    expressions: list[Expression] = []
+
+    if package.name is not None:
+        expressions.append(models.Vulnerability.affected.package.name == package.name)
+
+    if package.ecosystem is not None:
+        expressions.append(
+            models.Vulnerability.affected.package.ecosystem == package.ecosystem
+        )
+
+    if package.purl is not None:
+        expressions.append(models.Vulnerability.affected.package.purl == package.purl)
+
+    return models.Vulnerability.find(*expressions)
+
 
 class CRUDVulnerabilitySearchMixin:
     async def search_by_package(
         self,
-        package: schemas.Package | schemas.BasePackage,
+        package: PACKAGE,
         *,
         batch_size: int = settings.REDIS_OM_BATCH_SIZE,
         limit: int | None = None,
         offset: int | None = None,
         sort_by: list[str] | None = ["-timestamp"]
     ) -> list[models.Vulnerability]:
-        expressions: list[Expression] = []
-
-        if package.name is not None:
-            expressions.append(
-                models.Vulnerability.affected.package.name == package.name
-            )
-
-        if package.ecosystem is not None:
-            expressions.append(
-                models.Vulnerability.affected.package.ecosystem == package.ecosystem
-            )
-
-        if package.purl is not None:
-            expressions.append(
-                models.Vulnerability.affected.package.purl == package.purl
-            )
-
-        find_query = models.Vulnerability.find(*expressions)
+        find_query = build_find_query_by_package(package)
         if sort_by is not None:
             find_query = find_query.sort_by(*sort_by)
 
@@ -67,3 +71,19 @@ class CRUDVulnerabilitySearchMixin:
             return vulnerabilities
 
         return [v for v in vulnerabilities if v.is_affected_version(normalized.version)]
+
+    async def count_by_package(self, package: PACKAGE):
+        find_query = build_find_query_by_package(package)
+
+        args = [
+            "ft.search",
+            models.Vulnerability.Meta.index_name,
+            find_query.query,
+            "LIMIT",
+            0,
+            0,
+            "NOCONTENT",
+        ]
+
+        raw_result = await models.Vulnerability.db().execute_command(*args)
+        return raw_result[0]
