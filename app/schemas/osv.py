@@ -1,17 +1,14 @@
 from datetime import datetime
 from typing import Any
 
-from packageurl import PackageURL
-from pydantic import BaseModel, Field, root_validator, validator
+from pydantic import BaseModel, Field, root_validator
 
 from app import models
 
+from .package import BasePackage
 
-class Package(BaseModel):
-    name: str | None
-    ecosystem: str | None
-    purl: str | None
 
+class Package(BasePackage):
     @root_validator
     def check_consistency(cls, values: dict[str, Any]):
         has_ecosystem = values.get("ecosystem") is not None
@@ -27,14 +24,6 @@ class Package(BaseModel):
             raise ValueError("One of name, ecosystem and purl should be included")
 
         return values
-
-    @validator("purl")
-    def purl_format(cls, v: str | None):
-        if v is None:
-            return v
-
-        PackageURL.from_string(v)
-        return v
 
 
 class Query(BaseModel):
