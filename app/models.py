@@ -151,7 +151,7 @@ class Vulnerability(BaseJsonModel):
     database_specific: dict[str, Any] | None = None
 
     # NOTE: this is a float version of "modified" for sorting
-    timestamp: float | None = Field(None, index=True, sortable=True, exclude=True)
+    timestamp: float | None = Field(None, index=True, sortable=True)
 
     def __init__(self, **data: Any):
         super().__init__(**data)

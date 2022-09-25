@@ -6,3 +6,4 @@ from .osv import (  # noqa: F401
     Query,
     Vulnerabilities,
 )
+from .package import BasePackage  # noqa: F401

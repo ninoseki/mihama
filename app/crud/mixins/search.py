@@ -8,9 +8,12 @@ from app.query import normalize_query
 class CRUDVulnerabilitySearchMixin:
     async def search_by_package(
         self,
-        package: schemas.Package,
+        package: schemas.Package | schemas.BasePackage,
         *,
-        batch_size: int = settings.REDIS_OM_BATCH_SIZE
+        batch_size: int = settings.REDIS_OM_BATCH_SIZE,
+        limit: int | None = None,
+        offset: int | None = None,
+        sort_by: list[str] | None = ["-timestamp"]
     ) -> list[models.Vulnerability]:
         expressions: list[Expression] = []
 
@@ -29,7 +32,21 @@ class CRUDVulnerabilitySearchMixin:
                 models.Vulnerability.affected.package.purl == package.purl
             )
 
-        return await models.Vulnerability.find(*expressions).all(batch_size=batch_size)
+        find_query = models.Vulnerability.find(*expressions)
+        if sort_by is not None:
+            find_query = find_query.sort_by(*sort_by)
+
+        if limit is None and offset is None:
+            # return all results if limit and offset are None
+            return await find_query.all(batch_size=batch_size)
+
+        if limit is not None:
+            find_query.limit = limit
+
+        if offset is not None:
+            find_query.offset = offset
+
+        return await find_query.execute(exhaust_results=False)
 
     async def search_by_query(
         self, query: schemas.Query, *, batch_size: int = settings.REDIS_OM_BATCH_SIZE
