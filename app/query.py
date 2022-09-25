@@ -23,6 +23,23 @@ def _clean_purl(purl: PackageURL) -> PackageURL:
     return PackageURL(qualifiers=new_qualifiers, **values)
 
 
+def normalize_package(
+    package: schemas.BasePackage | schemas.Package,
+) -> schemas.BasePackage | schemas.Package:
+    purl: PackageURL | None = None
+
+    if package.purl is None:
+        return package
+
+    parsed_purl = PackageURL.from_string(package.purl)
+    purl = _clean_purl(parsed_purl)
+
+    normalized = package.copy(deep=True)
+    normalized.purl = str(purl)
+
+    return normalized
+
+
 def normalize_query(query: schemas.Query):
     if query.package is None:
         return query
