@@ -12,6 +12,14 @@ def vulnerability_with_semver():
     )
 
 
+def test_post_init_timestamp_creation(vulnerability_with_semver: models.Vulnerability):
+    assert vulnerability_with_semver.timestamp is not None
+    assert (
+        vulnerability_with_semver.timestamp
+        == vulnerability_with_semver.modified.timestamp()
+    )
+
+
 @pytest.mark.parametrize(
     "version,expected", [("0.0.8", True), ("0.0.9", False), ("1.0.0", False)]
 )

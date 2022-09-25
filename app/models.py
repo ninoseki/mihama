@@ -150,6 +150,14 @@ class Vulnerability(BaseJsonModel):
     credits: list[Credit] | None = None
     database_specific: dict[str, Any] | None = None
 
+    # NOTE: this is a float version of "modified" for sorting
+    timestamp: float | None = Field(None, index=True, sortable=True, exclude=True)
+
+    def __init__(self, **data: Any):
+        super().__init__(**data)
+
+        self.timestamp = self.modified.timestamp()
+
     def is_affected_version(self, version: str) -> bool:
         for affected in self.affected:
             if affected.is_affected_version(version):
