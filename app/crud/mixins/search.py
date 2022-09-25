@@ -13,7 +13,7 @@ class CRUDVulnerabilitySearchMixin:
         batch_size: int = settings.REDIS_OM_BATCH_SIZE,
         limit: int | None = None,
         offset: int | None = None,
-        sort_by: list[str] | None = ["timestamp"]
+        sort_by: list[str] | None = ["-timestamp"]
     ) -> list[models.Vulnerability]:
         expressions: list[Expression] = []
 
