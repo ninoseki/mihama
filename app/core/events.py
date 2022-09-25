@@ -1,10 +1,10 @@
 from collections.abc import Callable, Coroutine
 from typing import Any
 
-import aioredis
 from fastapi import FastAPI
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from redis import asyncio as aioredis
 
 from app.core import settings
 from app.monkeypatch import monkeypatch_escaper
@@ -19,9 +19,7 @@ def create_start_app_handler(
 
         await setup_redis_om()
 
-        r = aioredis.from_url(
-            str(settings.REDIS_CACHE_URL), encoding="utf8", decode_responses=True
-        )
+        r = aioredis.from_url(str(settings.REDIS_CACHE_URL))
         FastAPICache.init(RedisBackend(r), prefix="fastapi-cache")
 
     return start_app
