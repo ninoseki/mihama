@@ -4,43 +4,29 @@ from typing import Any
 from aredis_om import EmbeddedJsonModel, Field, JsonModel
 from aredis_om.connections import get_redis_connection
 from osv.semver_index import parse
-from pydantic import BaseModel
 
 from app.core import settings
 
 
-class ExcludePkModel(BaseModel):
-    class Config:
-        fields = {"pk": {"exclude": True}}
-
-
-class BaseEmbeddedJsonModel(EmbeddedJsonModel, ExcludePkModel):
-    pass
-
-
-class BaseJsonModel(JsonModel, ExcludePkModel):
-    pass
-
-
-class Severity(BaseEmbeddedJsonModel):
+class Severity(EmbeddedJsonModel):
     type: str
     score: str
 
 
-class Package(BaseEmbeddedJsonModel):
+class Package(EmbeddedJsonModel):
     ecosystem: str = Field(index=True)
     name: str = Field(index=True)
     purl: str | None = Field(index=True)
 
 
-class Event(BaseEmbeddedJsonModel):
+class Event(EmbeddedJsonModel):
     introduced: str | None = None
     fixed: str | None = None
     last_affected: str | None = None
     limit: str | None = None
 
 
-class Range(BaseEmbeddedJsonModel):
+class Range(EmbeddedJsonModel):
     type: str
     repo: str | None = None
     events: list[Event]
@@ -109,7 +95,7 @@ class Range(BaseEmbeddedJsonModel):
         return not is_fixed
 
 
-class Affected(BaseEmbeddedJsonModel):
+class Affected(EmbeddedJsonModel):
     package: Package
     ranges: list[Range] | None = None
     versions: list[str] | None = None
@@ -124,17 +110,17 @@ class Affected(BaseEmbeddedJsonModel):
         return all(results)
 
 
-class Reference(BaseEmbeddedJsonModel):
+class Reference(EmbeddedJsonModel):
     type: str
     url: str
 
 
-class Credit(BaseEmbeddedJsonModel):
+class Credit(EmbeddedJsonModel):
     name: str
     contact: list[str] | None = None
 
 
-class Vulnerability(BaseJsonModel):
+class Vulnerability(JsonModel):
     schema_version: str | None = None
     id: str = Field(index=True)
     modified: datetime

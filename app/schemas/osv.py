@@ -7,6 +7,65 @@ from app import models
 
 from .package import BasePackage
 
+# NOTE: define same schemas to exclude PKs from the output
+
+
+class ExcludePkMixin(BaseModel):
+    class Config:
+        fields = {"pk": {"exclude": True}}
+
+
+class Severity(models.Severity, ExcludePkMixin):
+    pass
+
+
+class AffectedPackage(models.Package, ExcludePkMixin):
+    pass
+
+
+class Event(models.Event, ExcludePkMixin):
+    pass
+
+
+class Range(BaseModel):
+    type: str
+    repo: str | None = None
+    events: list[Event]
+    database_specific: dict[str, Any] | None = None
+
+
+class Affected(BaseModel):
+    package: AffectedPackage
+    ranges: list[Range] | None = None
+    versions: list[str] | None = None
+    ecosystem_specific: dict[str, Any] | None = None
+    database_specific: dict[str, Any] | None = None
+
+
+class Reference(models.Reference, ExcludePkMixin):
+    pass
+
+
+class Credit(models.Reference, ExcludePkMixin):
+    pass
+
+
+class Vulnerability(BaseModel):
+    schema_version: str | None = None
+    id: str
+    modified: datetime
+    published: datetime | None = None
+    withdrawn: datetime | None = None
+    aliases: list[str] | None = None
+    related: list[str] | None = None
+    summary: str | None = None
+    details: str | None = None
+    severity: list[Severity] | None = None
+    affected: list[Affected] = Field(default_factory=list)
+    references: list[Reference] | None = None
+    credits: list[Credit] | None = None
+    database_specific: dict[str, Any] | None = None
+
 
 class Package(BasePackage):
     @root_validator
@@ -50,7 +109,7 @@ class Query(BaseModel):
 
 
 class Vulnerabilities(BaseModel):
-    vulns: list[models.Vulnerability]
+    vulns: list[Vulnerability]
 
 
 class SimplifiedVulnerability(BaseModel):
