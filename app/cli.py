@@ -21,14 +21,43 @@ def update(
         asyncio.run(update_by_ecosystem(ecosystem, overwrite=overwrite))
 
 
+@app.command(help="Get OSV vulnerability by ID")
+def get(id: str):
+    async def _get_by_id():
+        vuln = await crud.vulnerability.get_by_id(id)
+        if vuln is None:
+            logger.info(f"{id} does not exist")
+            return
+
+        print(vuln.json())  # noqa: T201
+
+    asyncio.run(_get_by_id())
+
+
+@app.command(help="Delete OSV vulnerability by ID")
+def delete(id: str):
+    async def _delete_by_id():
+        vuln = await crud.vulnerability.get_by_id(id)
+        if vuln is None:
+            logger.info(f"{id} does not exist")
+            return
+
+        await crud.vulnerability.delete(vuln)
+        logger.info(f"{id} is deleted")
+
+    asyncio.run(_delete_by_id())
+
+
 @app.command(help="Remove all OSV vulnerabilities")
 def cleanup():
     async def _cleanup():
-        all_pks = [pk for pk in crud.vulnerability.all_pks()]
+        all_pks: list[str] = []
+        async for pk in await crud.vulnerability.all_pks():
+            all_pks.append(pk)
 
         logger.info(f"Delete {len(all_pks)} vulnerabilities...")
 
-        crud.vulnerability.delete_by_pks(all_pks)
+        await crud.vulnerability.delete_by_pks(all_pks)
 
         logger.info("Done")
 
