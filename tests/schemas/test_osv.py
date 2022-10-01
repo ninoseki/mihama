@@ -1,6 +1,6 @@
 import pytest
 
-from app import schemas
+from app import models, schemas
 
 
 def test_package_with_nothing():
@@ -21,3 +21,8 @@ def test_query_with_nothing():
 def test_query_with_version_without_package():
     with pytest.raises(ValueError):
         schemas.Query(version="dummy")
+
+
+def test_vulnerability(vulnerabilities: list[models.Vulnerability]):
+    for v in vulnerabilities:
+        schemas.Vulnerability.parse_obj(v)

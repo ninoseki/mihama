@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
-from app import models
+from .osv import Vulnerability
 
 
 class SearchResults(BaseModel):
-    vulns: list[models.Vulnerability]
+    vulns: list[Vulnerability]
     total: int
