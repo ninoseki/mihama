@@ -21,6 +21,9 @@ async def batch_query(
     *,
     max_at_once: int = settings.OSV_QUERY_BATCH_MAX_AT_ONCE
 ):
+    if len(queries.queries) == 0:
+        return schemas.BatchResponse(results=[])
+
     jobs = [functools.partial(cached_query, q) for q in queries.queries]
     results = await aiometer.run_all(jobs, max_at_once=max_at_once)
     return schemas.BatchResponse(results=results)
