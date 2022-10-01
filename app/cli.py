@@ -35,12 +35,23 @@ def get(id: str):
 
 
 @app.command(help="Delete OSV vulnerability by ID")
-def delete(id: str):
+def delete(
+    id: str,
+    force_delete: bool = typer.Option(
+        False, help="Whether to delete vulnerability without confirmation"
+    ),
+):
     async def _delete_by_id():
         vuln = await crud.vulnerability.get_by_id(id)
         if vuln is None:
             logger.info(f"{id} does not exist")
             return
+
+        if not force_delete:
+            typer.confirm(
+                f"Are you sure you want to delete {id}?",
+                abort=True,
+            )
 
         await crud.vulnerability.delete(vuln)
         logger.info(f"{id} is deleted")
@@ -49,11 +60,21 @@ def delete(id: str):
 
 
 @app.command(help="Remove all OSV vulnerabilities")
-def cleanup():
+def cleanup(
+    force_delete: bool = typer.Option(
+        False, help="Whether to delete vulnerabilities without confirmation"
+    ),
+):
     async def _cleanup():
         all_pks: list[str] = []
         async for pk in await crud.vulnerability.all_pks():
             all_pks.append(pk)
+
+        if not force_delete:
+            typer.confirm(
+                f"Are you sure you want to delete {len(all_pks)} vulnerabilities?",
+                abort=True,
+            )
 
         logger.info(f"Delete {len(all_pks)} vulnerabilities...")
 
