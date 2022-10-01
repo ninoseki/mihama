@@ -9,7 +9,7 @@ COPY pyproject.toml poetry.lock gunicorn.conf.py ./
 COPY app ./app
 
 RUN pip install -U --no-cache-dir pip==22.2.2 \
-	&& pip install --no-cache-dir poetry==1.2.0 \
+	&& pip install --no-cache-dir poetry==1.2.1 \
 	&& poetry config virtualenvs.create false \
 	&& poetry install --no-dev
 
