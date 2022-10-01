@@ -8,3 +8,4 @@ from .osv import (  # noqa: F401
 )
 from .package import BasePackage  # noqa: F401
 from .search import SearchResults  # noqa: F401
+from .spdx import SPDX  # noqa: F401
