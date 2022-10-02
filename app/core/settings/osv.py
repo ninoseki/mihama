@@ -1,4 +1,4 @@
-from starlette.datastructures import CommaSeparatedStrings
+from app.core.datastructures import UniqueCommaSeparatedStrings
 
 from .config import config
 
@@ -8,10 +8,10 @@ OSV_BUCKET_BASE_URL: str = config(
     default="https://osv-vulnerabilities.storage.googleapis.com",
 )
 
-OSV_ECOSYSTEMS: CommaSeparatedStrings = config(
+OSV_ECOSYSTEMS: UniqueCommaSeparatedStrings = config(
     "OSV_ECOSYSTEMS",
-    cast=CommaSeparatedStrings,
-    default="npm,Maven,Go,NuGet,PyPI,RubyGems,crates.io,Packagist,Linux,OSS-Fuzz",
+    cast=UniqueCommaSeparatedStrings,
+    default="npm,Maven,Go,NuGet,PyPI,RubyGems,crates.io,Packagist,Linux,OSS-Fuzz,Alpine,Android,Debian,DWF,GitHub Actions,GSD,Hex,JavaScript,Pub,UVI",
 )
 
 OSV_BUCKET_DOWNLOAD_TIMEOUT: int = config(
