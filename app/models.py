@@ -3,9 +3,9 @@ from typing import Any
 
 from aredis_om import EmbeddedJsonModel, Field, JsonModel
 from aredis_om.connections import get_redis_connection
-from osv.semver_index import parse
 
 from app.core import settings
+from app.osv.semver_index import parse
 
 
 class Severity(EmbeddedJsonModel):
