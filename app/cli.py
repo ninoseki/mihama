@@ -1,5 +1,7 @@
 import asyncio
+import functools
 
+import aiometer
 import typer
 from loguru import logger
 
@@ -16,9 +18,19 @@ def update(
     overwrite: bool = typer.Option(
         True, help="Whether to overwrite vulnerability data of the same ID"
     ),
+    max_at_once: int = typer.Option(5, help="Max number of concurrent jobs"),
 ):
-    for ecosystem in ecosystems:
-        asyncio.run(update_by_ecosystem(ecosystem, overwrite=overwrite))
+    async def _update():
+        if len(ecosystems) == 0:
+            return
+
+        jobs = [
+            functools.partial(update_by_ecosystem, ecosystem, overwrite=overwrite)
+            for ecosystem in ecosystems
+        ]
+        await aiometer.run_all(jobs, max_at_once=max_at_once)
+
+    asyncio.run(_update())
 
 
 @app.command(help="Get OSV vulnerability by ID")
