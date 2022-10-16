@@ -4,8 +4,10 @@ from .osv import BatchQuery, Package, Query
 
 
 class Component(BaseModel):
-    purl: str | None = Field(None)
-    components: list["Component"] = Field(default_factory=list)
+    purl: str | None = Field(None, description="Specifies the package-url (purl)")
+    components: list["Component"] = Field(
+        default_factory=list, description="A list of software and hardware component"
+    )
 
     def get_flatten_components(
         self,
@@ -25,7 +27,9 @@ class Component(BaseModel):
 
 
 class BOM(BaseModel):
-    components: list[Component] = Field(default_factory=list)
+    components: list[Component] = Field(
+        default_factory=list, description="A list of software and hardware component"
+    )
 
     def to_batch_query(self) -> BatchQuery:
         components: list[Component] = []
