@@ -86,9 +86,18 @@ class Package(BasePackage):
 
 
 class Query(BaseModel):
-    commit: str | None
-    version: str | None
-    package: Package | None
+    commit: str | None = Field(
+        default=None,
+        description="The commit hash to query for. If specified, version should not be set.",
+    )
+    version: str | None = Field(
+        default=None,
+        description="The version string to query for. A fuzzy match is done against upstream versions. If specified, commit should not be set.",
+    )
+    package: Package | None = Field(
+        default=None,
+        description="The package to query against. When a commit hash is given, this is optional.",
+    )
 
     @root_validator
     def check_consistency(cls, values: dict[str, Any]):
