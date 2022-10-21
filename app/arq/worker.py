@@ -7,14 +7,12 @@ from arq.typing import StartupShutdown, WorkerCoroutine
 from arq.worker import Function, func
 
 from app.core import settings
-from app.monkeypatch import monkeypatch_escaper
 from app.redis import setup_redis_om
 
 from . import constants, tasks
 
 
 async def startup(_: dict[Any, Any]) -> None:
-    monkeypatch_escaper()
     await setup_redis_om()
 
 

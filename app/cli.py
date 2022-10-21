@@ -16,7 +16,7 @@ app = typer.Typer()
 def update(
     ecosystems: list[str] = list(settings.OSV_ECOSYSTEMS),
     overwrite: bool = typer.Option(
-        True, help="Whether to overwrite vulnerability data of the same ID"
+        True, help="Whether to overwrite vulnerability data with the same ID"
     ),
     max_at_once: int = typer.Option(5, help="Max number of concurrent jobs"),
 ):

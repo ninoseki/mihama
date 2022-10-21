@@ -5,7 +5,6 @@ import pytest_asyncio
 
 from app import crud, models
 from app.factories.vulnerability import VulnerabilityFactory
-from app.monkeypatch import monkeypatch_escaper
 from app.redis import setup_redis_om
 
 
@@ -23,8 +22,6 @@ def vulnerabilities():
 
 @pytest_asyncio.fixture
 async def setup_redis(vulnerabilities: list[models.Vulnerability]):
-    monkeypatch_escaper()
-
     # setup migrations for using redis-om
     await setup_redis_om()
 

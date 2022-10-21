@@ -72,18 +72,6 @@ class CRUDVulnerabilitySearchMixin:
 
         return [v for v in vulnerabilities if v.is_affected_version(normalized.version)]
 
-    async def count_by_package(self, package: PACKAGE):
+    async def count_by_package(self, package: PACKAGE) -> int:
         find_query = build_find_query_by_package(package)
-
-        args = [
-            "ft.search",
-            models.Vulnerability.Meta.index_name,
-            find_query.query,
-            "LIMIT",
-            0,
-            0,
-            "NOCONTENT",
-        ]
-
-        raw_result = await models.Vulnerability.db().execute_command(*args)
-        return raw_result[0]
+        return await find_query.count()
