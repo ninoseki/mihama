@@ -5,7 +5,7 @@ description = "osv.dev API clone for on-premise usage"
 authors = ["Manabu Niseki <manabu.niseki@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.10, <=3.11"
 aiometer = "^0.3.0"
 arq = "^0.24.0"
 fastapi = "^0.85.0"
@@ -17,7 +17,7 @@ packageurl-python = "^0.10.3"
 purl = "^1.6"
 pyhumps = "^3.7.3"
 redis = "^4.3.4"
-redis-om = "0.0.27"
+redis-om = "^0.1.0"
 requests = "^2.28.1"
 semver = "^2.13.0"
 typer = "^0.6.1"
