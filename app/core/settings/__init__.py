@@ -16,6 +16,7 @@ from .osv import (  # noqa: F401
 )
 from .redis import (  # noqa: F401
     REDIS_CACHE_NAMESPACE,
+    REDIS_CACHE_PREFIX,
     REDIS_CACHE_TTL,
     REDIS_CACHE_URL,
     REDIS_OM_BATCH_SIZE,

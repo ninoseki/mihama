@@ -21,3 +21,6 @@ REDIS_CACHE_TTL: int = config(
     default=60 * 60,
 )
 REDIS_CACHE_NAMESPACE: str = config("REDIS_CACHE_NAMESPACE", cast=str, default="cache")
+REDIS_CACHE_PREFIX: str = config(
+    "REDIS_CACHE_PREFIX", cast=str, default="fastapi-cache"
+)
