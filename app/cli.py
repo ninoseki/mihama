@@ -8,6 +8,7 @@ from loguru import logger
 from app import crud
 from app.arq.tasks import update_by_ecosystem
 from app.core import settings
+from app.redis import setup_redis_om
 
 app = typer.Typer()
 
@@ -21,6 +22,8 @@ def update(
     max_at_once: int = typer.Option(5, help="Max number of concurrent jobs"),
 ):
     async def _update():
+        await setup_redis_om()
+
         if len(ecosystems) == 0:
             return
 
@@ -36,6 +39,8 @@ def update(
 @app.command(help="Get OSV vulnerability by ID")
 def get(id: str):
     async def _get_by_id():
+        await setup_redis_om()
+
         vuln = await crud.vulnerability.get_by_id(id)
         if vuln is None:
             logger.info(f"{id} does not exist")
@@ -54,6 +59,8 @@ def delete(
     ),
 ):
     async def _delete_by_id():
+        await setup_redis_om()
+
         vuln = await crud.vulnerability.get_by_id(id)
         if vuln is None:
             logger.info(f"{id} does not exist")
@@ -78,6 +85,8 @@ def cleanup(
     ),
 ):
     async def _cleanup():
+        await setup_redis_om()
+
         all_pks: list[str] = []
         async for pk in await crud.vulnerability.all_pks():
             all_pks.append(pk)
