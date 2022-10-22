@@ -26,7 +26,7 @@ hiredis = ["hiredis (>=1.0)"]
 
 [[package]]
 name = "anyio"
-version = "3.6.1"
+version = "3.6.2"
 description = "High level compatibility layer for multiple asynchronous event loop implementations"
 category = "main"
 optional = false
@@ -39,7 +39,7 @@ sniffio = ">=1.1"
 [package.extras]
 doc = ["packaging", "sphinx-autodoc-typehints (>=1.2.0)", "sphinx-rtd-theme"]
 test = ["contextlib2", "coverage[toml] (>=4.5)", "hypothesis (>=4.0)", "mock (>=4)", "pytest (>=7.0)", "pytest-mock (>=3.6.1)", "trustme", "uvloop (<0.15)", "uvloop (>=0.15)"]
-trio = ["trio (>=0.16)"]
+trio = ["trio (>=0.16,<0.22)"]
 
 [[package]]
 name = "arq"
@@ -81,7 +81,7 @@ tests_no_zope = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy 
 
 [[package]]
 name = "autoflake"
-version = "1.7.0"
+version = "1.7.6"
 description = "Removes unused imports and unused variables"
 category = "dev"
 optional = false
@@ -228,7 +228,7 @@ python-versions = "*"
 
 [[package]]
 name = "fastapi"
-version = "0.85.0"
+version = "0.85.1"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
 category = "main"
 optional = false
@@ -471,7 +471,7 @@ python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*
 
 [[package]]
 name = "packageurl-python"
-version = "0.10.3"
+version = "0.10.4"
 description = "A purl aka. Package URL parser and builder"
 category = "main"
 optional = false
@@ -612,7 +612,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "pyhumps"
-version = "3.7.3"
+version = "3.8.0"
 description = "🐫  Convert strings (and dictionary keys) between snake case, camel case and pascal case in Python. Inspired by Humps for Node"
 category = "main"
 optional = false
@@ -764,7 +764,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "pyupgrade"
-version = "3.0.0"
+version = "3.1.0"
 description = "A tool to automatically upgrade syntax for newer versions."
 category = "dev"
 optional = false
@@ -1047,7 +1047,7 @@ testing = ["coverage (>=6.2)", "coverage-enable-subprocess (>=1)", "flaky (>=3.7
 
 [[package]]
 name = "watchfiles"
-version = "0.17.0"
+version = "0.18.0"
 description = "Simple, modern and high performance file watching and code reload in python."
 category = "main"
 optional = false
@@ -1098,7 +1098,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10, <=3.11"
-content-hash = "0eb3312611fe045fb383b642939b7869017321455b6b8ba81088b16f470e9302"
+content-hash = "0eec36d29c4c3e9ff5587eb36b8a3dbd2f29b21a3bb63bb7c7426c5d9a762dae"
 
 [metadata.files]
 aiometer = [
@@ -1109,7 +1109,10 @@ aioredis = [
     {file = "aioredis-2.0.1-py3-none-any.whl", hash = "sha256:9ac0d0b3b485d293b8ca1987e6de8658d7dafcca1cddfcd1d506cae8cdebfdd6"},
     {file = "aioredis-2.0.1.tar.gz", hash = "sha256:eaa51aaf993f2d71f54b70527c440437ba65340588afeb786cd87c55c89cd98e"},
 ]
-anyio = []
+anyio = [
+    {file = "anyio-3.6.2-py3-none-any.whl", hash = "sha256:fbbe32bd270d2a2ef3ed1c5d45041250284e31fc0a4df4a5a6071842051a51e3"},
+    {file = "anyio-3.6.2.tar.gz", hash = "sha256:25ea0d673ae30af41a0c442f81cf3b38c7e79fdc7b60335a4c14e05eb0947421"},
+]
 arq = [
     {file = "arq-0.24.0-py3-none-any.whl", hash = "sha256:76f85f84da76c67cb57a8f78ff8170f63f3e5039d49b3a6949109907e322ec1d"},
     {file = "arq-0.24.0.tar.gz", hash = "sha256:048db0f63d7a5736c043b8abfd1d34a054f46a943eec46668062861b5b5e4f3c"},
@@ -1117,8 +1120,8 @@ arq = [
 async-timeout = []
 attrs = []
 autoflake = [
-    {file = "autoflake-1.7.0-py2.py3-none-any.whl", hash = "sha256:cb46baf67d7114302cf66363f384d34704508828f1606a42a267957531f2bab3"},
-    {file = "autoflake-1.7.0.tar.gz", hash = "sha256:ac2f7d61cd54e675319fc67ce4a9b4ba69cb054af9ae4e8e565cfcb57ba15c6a"},
+    {file = "autoflake-1.7.6-py3-none-any.whl", hash = "sha256:9fa63cb814c1dfc02103a361b449c024226348c2130b6839cd94278c309c4a65"},
+    {file = "autoflake-1.7.6.tar.gz", hash = "sha256:f2a8e107ba6c02a25e0acf2beebab247792998132e6b1f24efa7b0b7faa30cb6"},
 ]
 autopep8 = [
     {file = "autopep8-1.7.0-py2.py3-none-any.whl", hash = "sha256:6f09e90a2be784317e84dc1add17ebfc7abe3924239957a37e5040e27d812087"},
@@ -1164,8 +1167,8 @@ crashtest = [
 deprecated = []
 distlib = []
 fastapi = [
-    {file = "fastapi-0.85.0-py3-none-any.whl", hash = "sha256:1803d962f169dc9f8dde54a64b22eb16f6d81573f54401971f90f0a67234a8b4"},
-    {file = "fastapi-0.85.0.tar.gz", hash = "sha256:bb219cfafd0d2ccf8f32310c9a257a06b0210bd8e2a03706a6f5a9f9f1416878"},
+    {file = "fastapi-0.85.1-py3-none-any.whl", hash = "sha256:de3166b6b1163dc22da4dc4ebdc3192fcbac7700dd1870a1afa44de636a636b5"},
+    {file = "fastapi-0.85.1.tar.gz", hash = "sha256:1facd097189682a4ff11cbd01334a992e51b56be663b2bd50c2c09523624f144"},
 ]
 fastapi-cache2 = [
     {file = "fastapi-cache2-0.1.9.tar.gz", hash = "sha256:816612f7b29b4ea4ed3b4e03c55b7f96b4e4d6dffce6a95e2cf5cf36a980eaaa"},
@@ -1239,8 +1242,8 @@ nest-asyncio = [
 ]
 nodeenv = []
 packageurl-python = [
-    {file = "packageurl-python-0.10.3.tar.gz", hash = "sha256:a01371a9015fb5c1a3c62eb2f7250b87d1733fced57f075e30715eb8e15e075d"},
-    {file = "packageurl_python-0.10.3-py3-none-any.whl", hash = "sha256:aefef9565ff9800147725ba96a7ee68a2f75e49d0ac5a6ad6a7fb1ddb90eb748"},
+    {file = "packageurl-python-0.10.4.tar.gz", hash = "sha256:5c91334f942cd55d45eb0c67dd339a535ef90e25f05b9ec016ad188ed0ef9048"},
+    {file = "packageurl_python-0.10.4-py3-none-any.whl", hash = "sha256:bf8a1ffe755634776f6563904d792fb0aa13b377fc86115c36fe17f69b6e59db"},
 ]
 packaging = []
 pathspec = []
@@ -1291,8 +1294,8 @@ pyflakes = [
     {file = "pyflakes-2.5.0.tar.gz", hash = "sha256:491feb020dca48ccc562a8c0cbe8df07ee13078df59813b83959cbdada312ea3"},
 ]
 pyhumps = [
-    {file = "pyhumps-3.7.3-py3-none-any.whl", hash = "sha256:8cf9503f71be250a1ec2c0af997309e6360ad4daa343acd7faafde54cce36469"},
-    {file = "pyhumps-3.7.3.tar.gz", hash = "sha256:6eec3741cf917009adb16f6b6b883429edb1c6286531bd9f3977ba41938b0a09"},
+    {file = "pyhumps-3.8.0-py3-none-any.whl", hash = "sha256:060e1954d9069f428232a1adda165db0b9d8dfdce1d265d36df7fbff540acfd6"},
+    {file = "pyhumps-3.8.0.tar.gz", hash = "sha256:498026258f7ee1a8e447c2e28526c0bea9407f9a59c03260aee4bd6c04d681a3"},
 ]
 pylev = [
     {file = "pylev-1.4.0-py2.py3-none-any.whl", hash = "sha256:7b2e2aa7b00e05bb3f7650eb506fc89f474f70493271a35c242d9a92188ad3dd"},
@@ -1334,8 +1337,8 @@ pytzdata = [
     {file = "pytzdata-2020.1.tar.gz", hash = "sha256:3efa13b335a00a8de1d345ae41ec78dd11c9f8807f522d39850f2dd828681540"},
 ]
 pyupgrade = [
-    {file = "pyupgrade-3.0.0-py2.py3-none-any.whl", hash = "sha256:f9ba6cb58713e7249f4f0486e425969618e953062a5fc805da9d21602a2d1441"},
-    {file = "pyupgrade-3.0.0.tar.gz", hash = "sha256:6ec1e2762d887cab94a5714b2ea7e944843d8c2de36c449d443e52ffac8ab14f"},
+    {file = "pyupgrade-3.1.0-py2.py3-none-any.whl", hash = "sha256:77c6101a710be3e24804891e43388cedbee617258e93b09c8c5e58de08617758"},
+    {file = "pyupgrade-3.1.0.tar.gz", hash = "sha256:7a8d393d85e15e0e2753e90b7b2e173b9d29dfd71e61f93d93e985b242627ed3"},
 ]
 pyyaml = []
 redis = [
@@ -1455,7 +1458,26 @@ vcrpy = [
     {file = "vcrpy-4.2.1.tar.gz", hash = "sha256:7cd3e81a2c492e01c281f180bcc2a86b520b173d2b656cb5d89d99475423e013"},
 ]
 virtualenv = []
-watchfiles = []
+watchfiles = [
+    {file = "watchfiles-0.18.0-cp37-abi3-macosx_10_7_x86_64.whl", hash = "sha256:76a4c4a8e25a2c9a4f7fa3d373bbaf5558c17b97b4cf8411d33de368fe6b68a9"},
+    {file = "watchfiles-0.18.0-cp37-abi3-macosx_11_0_arm64.whl", hash = "sha256:d5d799614d4c56d29c5ba56f4f619f967210dc10a0d6965b62d326b9e2f72c9e"},
+    {file = "watchfiles-0.18.0-cp37-abi3-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:39b932b044fef6c43e813e0bef908e0edf185bf7b5d8d53246651cb7ac9efe79"},
+    {file = "watchfiles-0.18.0-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:1686bc4ac40ffde7256b6543b0f9a2cc8b531ae45243786f1d3f1dda2fe39e24"},
+    {file = "watchfiles-0.18.0-cp37-abi3-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:320bcde0adaa972403ed3b70f784409437325a1a4df2de54ba0672203d8847e5"},
+    {file = "watchfiles-0.18.0-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:4ba6d8c2f957cae3e888bc250bc60ed09fe869b3f55f09d020ed3fecbefb6a4c"},
+    {file = "watchfiles-0.18.0-cp37-abi3-musllinux_1_1_aarch64.whl", hash = "sha256:fd4215badad1e3d1ad5fb79f21432dd5157e2e7b0765d27a19dc2a28580c6979"},
+    {file = "watchfiles-0.18.0-cp37-abi3-musllinux_1_1_x86_64.whl", hash = "sha256:cfdbfc4b6797c28dd1a8524581fed00ca333971b4111af8cd42fb7a92dcdc227"},
+    {file = "watchfiles-0.18.0-cp37-abi3-win32.whl", hash = "sha256:8eddc2d19bf6f49aee224072ec0f4f3258125a49f11b5dcff1448e68718a745e"},
+    {file = "watchfiles-0.18.0-cp37-abi3-win_amd64.whl", hash = "sha256:be87c9b1fe2b02105a9ac6d9df7500a110652bbd97cf46b13964eeaef9a6c89c"},
+    {file = "watchfiles-0.18.0-cp37-abi3-win_arm64.whl", hash = "sha256:184799818c4fa7dbc6a1e4ca20bcbc6b85e4e0db07ce4554ea2f29b75ccd0cdc"},
+    {file = "watchfiles-0.18.0-pp38-pypy38_pp73-macosx_10_7_x86_64.whl", hash = "sha256:7f39fcdac5d5b9815a0c2ab9005d39854296b11fa15386a9a69c09cbbc5dde2c"},
+    {file = "watchfiles-0.18.0-pp38-pypy38_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:78b1e7c29b92dfc8fc32f15949019232b493767d236c2bff31848df13fdb9e8a"},
+    {file = "watchfiles-0.18.0-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:27d64a6ed5e0aebef97c70fa3899a6958d4f7f049effc659e7dc3e81f3170a7b"},
+    {file = "watchfiles-0.18.0-pp39-pypy39_pp73-macosx_10_7_x86_64.whl", hash = "sha256:4bbc8bfa0f3871b1867af42837a5635a9c1cbb2b68d039754b4750642c34aaee"},
+    {file = "watchfiles-0.18.0-pp39-pypy39_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9d3a12e4de5446fb6e286b720d0cb3a080811caf0ef43e556c2db5fe10ef0342"},
+    {file = "watchfiles-0.18.0-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9e611a90482ac14ef3ec234c1604ed921d1b0c68970eba82f1cf0d59a3e4eb76"},
+    {file = "watchfiles-0.18.0.tar.gz", hash = "sha256:bbe10d134eef1666451382015e48f092c941a6d4562a98ffa1a288f79a897c46"},
+]
 websockets = []
 win32-setctime = []
 wrapt = []
