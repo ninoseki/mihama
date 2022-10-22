@@ -1098,7 +1098,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10, <=3.11"
-content-hash = "0eec36d29c4c3e9ff5587eb36b8a3dbd2f29b21a3bb63bb7c7426c5d9a762dae"
+content-hash = "5707a3e66fa6905e090aee9328f3362c8635684fa075333f4752bcd0bd208ac7"
 
 [metadata.files]
 aiometer = [
