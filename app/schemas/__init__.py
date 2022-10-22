@@ -1,4 +1,4 @@
-from .cyclonedx import BOM, Component  # noqa: F401
+from .cyclonedx import CycloneDX  # noqa: F401
 from .osv import (  # noqa: F401
     BatchQuery,
     BatchResponse,

@@ -26,7 +26,7 @@ class Component(BaseModel):
         return Query(package=Package(purl=self.purl))
 
 
-class BOM(BaseModel):
+class CycloneDX(BaseModel):
     components: list[Component] = Field(
         default_factory=list, description="A list of software and hardware component"
     )

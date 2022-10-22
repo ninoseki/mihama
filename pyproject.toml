@@ -28,6 +28,7 @@ uvicorn = {extras = ["standard"], version = "^0.18.3"}
 autoflake = "^1.7.0"
 autopep8 = "^1.7.0"
 black = "^22.10.0"
+httpx = "^0.23.0"
 isort = "^5.10.1"
 mypy = "^0.982"
 nest-asyncio = "^1.5.6"
