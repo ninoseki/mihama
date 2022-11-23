@@ -10,7 +10,7 @@ services:
     build:
       context: ./
       dockerfile: default.Dockerfile
-    command: arq app.arq.worker.ArqWorkerSettings
+    command: poetry run arq app.arq.worker.ArqWorkerSettings
     environment:
       - TESTING=False
       - DEBUG=False
@@ -25,7 +25,7 @@ services:
     build:
       context: ./
       dockerfile: default.Dockerfile
-    command: gunicorn -k uvicorn.workers.UvicornWorker app.main:app
+    command: poetry run gunicorn -k uvicorn.workers.UvicornWorker app.main:app
     ports:
       - ${PORT}:${PORT}
     environment:
