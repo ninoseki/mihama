@@ -1,7 +1,7 @@
 import pytest
 from httpx import AsyncClient
 
-from app import models
+from mihama import models
 
 
 @pytest.mark.asyncio

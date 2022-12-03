@@ -1,4 +1,4 @@
-from app.core import datastructures
+from mihama.core import datastructures
 
 
 def test_unique_csv():

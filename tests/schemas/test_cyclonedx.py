@@ -1,7 +1,7 @@
 import pytest
 
-from app import schemas
-from app.schemas.cyclonedx import Component
+from mihama import schemas
+from mihama.schemas.cyclonedx import Component
 
 
 @pytest.fixture

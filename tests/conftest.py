@@ -7,10 +7,10 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.inmemory import InMemoryBackend
 from httpx import AsyncClient
 
-from app import crud, models
-from app.factories.vulnerability import VulnerabilityFactory
-from app.main import create_app
-from app.redis import setup_redis_om
+from mihama import crud, models
+from mihama.factories.vulnerability import VulnerabilityFactory
+from mihama.main import create_app
+from mihama.redis import setup_redis_om
 
 
 @pytest.fixture(scope="session")

@@ -1,7 +1,7 @@
 import pytest
 
-from app import schemas
-from app.api.v1.endpoints.utils import batch_query
+from mihama import schemas
+from mihama.api.v1.endpoints.utils import batch_query
 
 
 @pytest.fixture

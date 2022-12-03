@@ -1,7 +1,7 @@
 import pytest
 from httpx import AsyncClient
 
-from app import schemas
+from mihama import schemas
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mihama"
-version = "0.5.0"
+version = "0.5.1"
 description = "osv.dev API clone for on-premise usage"
 authors = ["Manabu Niseki <manabu.niseki@gmail.com>"]
 
@@ -47,3 +47,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+
+[tool.poetry.scripts]
+mihama = "mihama.cli:app"
