@@ -13,6 +13,7 @@ from . import constants, tasks
 
 
 async def startup(_: dict[Any, Any]) -> None:
+    # setup Redis OM
     await setup_redis_om()
 
 

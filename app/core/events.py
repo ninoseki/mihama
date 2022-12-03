@@ -14,8 +14,10 @@ def create_start_app_handler(
     _: FastAPI,
 ) -> Callable[[], Coroutine[Any, Any, None]]:
     async def start_app() -> None:
+        # setup Redis OM
         await setup_redis_om()
 
+        # setup cache
         r = aioredis.from_url(str(settings.REDIS_CACHE_URL))
         FastAPICache.init(RedisBackend(r), prefix=settings.REDIS_CACHE_PREFIX)
 
