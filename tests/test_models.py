@@ -1,6 +1,6 @@
 import pytest
 
-from app import models
+from mihama import models
 
 
 @pytest.fixture

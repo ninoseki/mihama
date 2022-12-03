@@ -1,6 +1,6 @@
 import pytest
 
-from app import models, schemas
+from mihama import models, schemas
 
 
 def test_package_with_nothing():

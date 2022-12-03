@@ -1,7 +1,7 @@
 import pytest
 
-from app import schemas
-from app.query import normalize_query
+from mihama import schemas
+from mihama.query import normalize_query
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
 import pytest
 
-from app import schemas
+from mihama import schemas
 
 
 @pytest.fixture
