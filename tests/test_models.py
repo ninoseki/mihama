@@ -43,3 +43,25 @@ def test_is_affected_version_vulnerability_with_versions(
     vulnerability_with_versions: models.Vulnerability, version: str, expected: bool
 ):
     assert vulnerability_with_versions.is_affected_version(version) is expected
+
+
+@pytest.fixture
+def vulnerability_with_semver_last_affected():
+    # introduced: 0
+    # last_affected: 4.1.0
+    return models.Vulnerability.parse_file(
+        "tests/fixtures/advisories/last_affected.json"
+    )
+
+
+@pytest.mark.parametrize(
+    "version,expected", [("1.0.0", True), ("4.1.0", True), ("4.1.1", False)]
+)
+def test_is_affected_version_vulnerability_with_semver_last_affected(
+    vulnerability_with_semver_last_affected: models.Vulnerability,
+    version: str,
+    expected: bool,
+):
+    assert (
+        vulnerability_with_semver_last_affected.is_affected_version(version) is expected
+    )
