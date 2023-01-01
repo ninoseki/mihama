@@ -55,22 +55,20 @@ class CRUDVulnerabilitySearchMixin:
     async def search_by_query(
         self, query: schemas.Query, *, batch_size: int = settings.REDIS_OM_BATCH_SIZE
     ) -> list[models.Vulnerability]:
-        if query.package is None:
-            # TODO: query by commit is not supported yet
-            return []
-
         normalized = normalize_query(query)
-        if normalized.package is None:
+        if normalized.package is None or normalized.version is None:
             return []
 
         vulnerabilities = await self.search_by_package(
             normalized.package, batch_size=batch_size
         )
-
-        if normalized.version is None:
-            return vulnerabilities
-
-        return [v for v in vulnerabilities if v.is_affected_version(normalized.version)]
+        return [
+            v
+            for v in vulnerabilities
+            if v.is_affected_package_version(
+                package=normalized.package, version=normalized.version
+            )
+        ]
 
     async def count_by_package(self, package: PACKAGE) -> int:
         find_query = build_find_query_by_package(package)

@@ -11,9 +11,28 @@ def vulnerability():
 
 
 @pytest.mark.parametrize(
-    "version,expected", [("0.0.8", True), ("0.0.9", False), ("1.0.0", False)]
+    "package,version,expected",
+    [
+        (
+            models.Package(ecosystem="Go", name="github.com/owncast/owncast"),
+            "0.0.8",
+            True,
+        ),
+        (
+            models.Package(ecosystem="Go", name="github.com/owncast/owncast"),
+            "0.0.9",
+            False,
+        ),
+        (models.Package(ecosystem="Go", name="dummy"), "0.0.8", False),
+    ],
 )
-def test_is_affected_version_with_fixed(
-    vulnerability: models.Vulnerability, version: str, expected: bool
+def test_is_affected_package_version_with_fixed(
+    vulnerability: models.Vulnerability,
+    package: models.Package,
+    version: str,
+    expected: bool,
 ):
-    assert vulnerability.is_affected_version(version) is expected
+    assert (
+        vulnerability.is_affected_package_version(version=version, package=package)
+        is expected
+    )
