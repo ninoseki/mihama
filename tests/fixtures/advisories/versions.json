@@ -1,5 +1,5 @@
 {
-  "id": "GHSA-2c8c-84w2-j38j",
+  "id": "GHSA-2c8c-84w2-j38j - versions",
   "summary": "Improper Restriction of XML External Entity Reference in Plone",
   "details": "Plone before 5.2.3 allows XXE attacks via a feature that is protected by an unapplied permission of plone.schemaeditor.ManageSchemata (therefore, only available to the Manager role).",
   "aliases": [

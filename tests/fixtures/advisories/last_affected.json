@@ -1,6 +1,6 @@
 {
 	"schema_version": "1.3.0",
-	"id": "GHSA-m6vm-8g8v-xfjh",
+	"id": "GHSA-m6vm-8g8v-xfjh - last_affected",
 	"modified": "2022-04-20T19:15:08Z",
 	"published": "2021-10-12T22:23:13Z",
 	"aliases": [
@@ -12,7 +12,8 @@
 		{
 			"package": {
 				"ecosystem": "PyPI",
-				"name": "opencv-python"
+				"name": "opencv-python",
+				"purl": "pkg:pypi/opencv-python"
 			},
 			"ranges": [
 				{

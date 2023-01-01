@@ -1,5 +1,5 @@
 {
-  "id": "GHSA-2hfj-cxw7-g45p",
+  "id": "GHSA-2hfj-cxw7-g45p - fixed",
   "summary": "Unsafe inline XSS in pasting DOM element into chat",
   "details": "### Impact\n\nInline scripts are executed when Javascript is parsed via a paste action.\n\n1. Open https://watch.owncast.online/\n2. Copy and then paste `<img src=null onerror=alert('hello')>` into the\nchat field.\n3. An alert should pop up.\n\n### Patches\n```\n    \u22ee 13 \u2502    // Content security policy\n    \u22ee 14 \u2502    csp := []string{\n    \u22ee 15 \u2502        \"script-src 'self' 'sha256-2HPCfJIJHnY0NrRDPTOdC7AOSJIcQyNxzUuut3TsYRY='\",\n    \u22ee 16 \u2502        \"worker-src 'self' blob:\", // No single quotes around blob:\n    \u22ee 17 \u2502    }\n```\n\nWill be patched in 0.0.9 by blocking `unsafe-inline` Content Security Policy and specifying the `script-src`.  The `worker-src` is required to be set to `blob` for the video player.\n\n### For more information\n\nIf you have any questions or comments about this advisory:\n* Open an issue in [owncast/owncast](https://github.com/owncast/owncast/issues)\n* Email us at [gabek@real-ity.com](mailto:gabek@real-ity.com)\n",
   "aliases": [
