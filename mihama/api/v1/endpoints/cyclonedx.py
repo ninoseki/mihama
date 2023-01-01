@@ -10,7 +10,7 @@ router = APIRouter()
     "/querybatch",
     response_model=schemas.BatchResponse,
     response_model_exclude_none=True,
-    description="Query vulnerabilities by CycloneDX SBOM. (Components inside should have package URL to work) ",
+    description="Query vulnerabilities by CycloneDX SBOM. (Components inside should have package URL to work)",
 )
 async def querybatch(bom: schemas.CycloneDX) -> schemas.BatchResponse:
     queries = bom.to_batch_query()

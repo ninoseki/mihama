@@ -10,7 +10,7 @@ router = APIRouter()
     "/query",
     response_model=schemas.Vulnerabilities,
     response_model_exclude_none=True,
-    description="Query vulnerabilities for a particular project at a given commit or version. ",
+    description="Query vulnerabilities for a particular project at a given commit or version.",
 )
 async def query(query: schemas.Query) -> schemas.Vulnerabilities:
     return await cached_query(query)
