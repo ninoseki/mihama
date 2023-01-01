@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 
 from mihama import schemas
-
-from .utils import batch_query
+from mihama.query import batch_query
 
 router = APIRouter()
 
