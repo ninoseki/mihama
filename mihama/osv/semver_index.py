@@ -21,7 +21,7 @@ _PAD_WIDTH = 8
 _FAKE_PRE_WIDTH = 16
 
 
-def _strip_leading_v(version):
+def _strip_leading_v(version: str) -> str:
     """Strip leading v from the version, if any."""
     # Versions starting with "v" aren't valid SemVer, but we handle them just in
     # case.
@@ -31,7 +31,7 @@ def _strip_leading_v(version):
     return version
 
 
-def _remove_leading_zero(component):
+def _remove_leading_zero(component: str) -> str:
     """Remove leading zeros from a component."""
     if component[0] == ".":
         return "." + str(int(component[1:]))
@@ -39,7 +39,7 @@ def _remove_leading_zero(component):
     return str(int(component))
 
 
-def coerce(version):
+def coerce(version: str) -> str:
     """Coerce a potentially invalid semver into valid semver."""
     version = _strip_leading_v(version)
     version_pattern = re.compile(r"^(\d+)(\.\d+)?(\.\d+)?(.*)$")
@@ -55,20 +55,20 @@ def coerce(version):
     )
 
 
-def is_valid(version):
+def is_valid(version: str) -> bool:
     """Returns whether or not the version is a valid semver."""
     return semver.VersionInfo.isvalid(_strip_leading_v(version))
 
 
-def parse(version):
+def parse(version: str) -> semver.VersionInfo:
     """Parse a SemVer."""
     return semver.VersionInfo.parse(coerce(version))
 
 
-def normalize(version):
+def normalize(version: str) -> str:
     """Normalize semver version for indexing (to allow for lexical
     sorting/filtering)."""
-    version = parse(version)
+    parsed = parse(version)
 
     # Precedence rules: https://semver.org/#spec-item-11
 
@@ -85,9 +85,9 @@ def normalize(version):
     # Normalization: Pad the components with '0' to allow for lexical ordering of
     # numbers.
     core_parts = "{}.{}.{}".format(
-        str(version.major).rjust(_PAD_WIDTH, "0"),
-        str(version.minor).rjust(_PAD_WIDTH, "0"),
-        str(version.patch).rjust(_PAD_WIDTH, "0"),
+        str(parsed.major).rjust(_PAD_WIDTH, "0"),
+        str(parsed.minor).rjust(_PAD_WIDTH, "0"),
+        str(parsed.patch).rjust(_PAD_WIDTH, "0"),
     )
 
     # 3. When major, minor, and patch are equal, a pre-release version has lower
@@ -95,7 +95,7 @@ def normalize(version):
     #
     # Normalization: Attach a very long fake prerelease version that is most
     # likely to come after any real prelease version.
-    if not version.prerelease:
+    if not parsed.prerelease:
         pre = "z" * _FAKE_PRE_WIDTH
         return f"{core_parts}-{pre}"
 
@@ -104,8 +104,8 @@ def normalize(version):
     # from left to right until a difference is found as follows:
     #
     # Normalization: Pad the components.
-    pre_components = []
-    for component in version.prerelease.split("."):
+    pre_components: list[str] = []
+    for component in parsed.prerelease.split("."):
         # 3. Numeric identifiers always have lower precedence than non-numeric
         # identifiers.
         #

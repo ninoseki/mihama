@@ -1,12 +1,21 @@
 from datetime import datetime
-from typing import Any
+from typing import Any, cast
 
+import semver
 from aredis_om import Field
 from aredis_om.connections import get_redis_connection
+from returns.pipeline import flow
+from returns.pointfree import bind
+from returns.result import Result, safe
 
 from mihama.core import settings
 from mihama.monkeypatch.model import EmbeddedJsonModel, JsonModel
 from mihama.osv.semver_index import parse
+
+
+@safe
+def safe_parse(version: str) -> semver.VersionInfo:
+    return parse(version)
 
 
 class Severity(EmbeddedJsonModel):
@@ -45,12 +54,6 @@ class Range(EmbeddedJsonModel):
 
         return None
 
-    def get_semver_introduced(self):
-        try:
-            return parse(self.introduced or "")
-        except ValueError:
-            return None
-
     @property
     def fixed(self) -> str | None:
         for event in self.events:
@@ -58,12 +61,6 @@ class Range(EmbeddedJsonModel):
                 return event.fixed
 
         return None
-
-    def get_semver_fixed(self):
-        try:
-            return parse(self.fixed or "")
-        except ValueError:
-            return None
 
     @property
     def last_affected(self) -> str | None:
@@ -73,11 +70,38 @@ class Range(EmbeddedJsonModel):
 
         return None
 
-    def get_semver_last_affected(self):
-        try:
-            return parse(self.last_affected or "")
-        except ValueError:
-            return None
+    def is_introduced(self, semver_version: semver.VersionInfo) -> bool:
+        @safe
+        def _is_introduced(semver_introduced: semver.VersionInfo):
+            return semver_version >= semver_introduced
+
+        result = cast(
+            Result[bool, Exception],
+            flow(self.introduced, safe_parse, bind(_is_introduced)),
+        )
+        return result.value_or(False)
+
+    def is_fixed(self, semver_version: semver.VersionInfo):
+        @safe
+        def _is_fixed(semver_fixed: semver.VersionInfo):
+            return semver_version >= semver_fixed
+
+        result = cast(
+            Result[bool, Exception],
+            flow(self.fixed, safe_parse, bind(_is_fixed)),
+        )
+        return result.value_or(False)
+
+    def is_no_longer_affected(self, semver_version: semver.VersionInfo):
+        @safe
+        def _is_no_longer_affected(semver_last_affected: semver.VersionInfo):
+            return semver_version > semver_last_affected
+
+        result = cast(
+            Result[bool, Exception],
+            flow(self.last_affected, safe_parse, bind(_is_no_longer_affected)),
+        )
+        return result.value_or(False)
 
     def is_affected_version(self, version: str) -> bool:
         if not self.is_semver_type:
@@ -92,26 +116,16 @@ class Range(EmbeddedJsonModel):
             #       it is impossible do the comparison
             return False
 
-        introduced = self.get_semver_introduced()
-
-        if introduced is None:
+        if not self.is_introduced(semver_version):
             return False
 
-        is_introduced = semver_version >= introduced
-        if not is_introduced:
+        if self.is_fixed(semver_version):
             return False
 
-        fixed = self.get_semver_fixed()
-        if fixed is not None:
-            is_fixed = semver_version >= fixed
-            if is_fixed:
-                return False
+        if self.is_no_longer_affected(semver_version):
+            return False
 
-        last_affected = self.get_semver_last_affected()
-        if last_affected is None:
-            return True
-
-        return semver_version <= last_affected
+        return True
 
 
 class Affected(EmbeddedJsonModel):
