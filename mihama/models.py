@@ -65,6 +65,20 @@ class Range(EmbeddedJsonModel):
         except ValueError:
             return None
 
+    @property
+    def last_affected(self) -> str | None:
+        for event in self.events:
+            if event.last_affected is not None:
+                return event.last_affected
+
+        return None
+
+    def get_semver_last_affected(self):
+        try:
+            return parse(self.last_affected or "")
+        except ValueError:
+            return None
+
     def is_affected_version(self, version: str) -> bool:
         if not self.is_semver_type:
             # NOTE: it is impossible to do semantics versioning based comparison
@@ -88,12 +102,16 @@ class Range(EmbeddedJsonModel):
             return False
 
         fixed = self.get_semver_fixed()
-        if fixed is None:
-            # it means that there is not fixed version yet
+        if fixed is not None:
+            is_fixed = semver_version >= fixed
+            if is_fixed:
+                return False
+
+        last_affected = self.get_semver_last_affected()
+        if last_affected is None:
             return True
 
-        is_fixed = semver_version >= fixed
-        return not is_fixed
+        return semver_version <= last_affected
 
 
 class Affected(EmbeddedJsonModel):
@@ -103,12 +121,23 @@ class Affected(EmbeddedJsonModel):
     ecosystem_specific: dict[str, Any] | None = None
     database_specific: dict[str, Any] | None = None
 
-    def is_affected_version(self, version: str) -> bool:
+    def is_affected_package(self, package: Package) -> bool:
+        is_same_ecosystem = package.ecosystem == self.package.ecosystem
+        is_same_name = package.name == self.package.name
+        return is_same_ecosystem and is_same_name
+
+    def is_affected_version(self, version: str):
         if version in (self.versions or []):
             return True
 
         results = [range_.is_affected_version(version) for range_ in self.ranges]
         return all(results)
+
+    def is_affected_package_version(self, *, package: Package, version: str) -> bool:
+        if not self.is_affected_package(package):
+            return False
+
+        return self.is_affected_version(version)
 
 
 class Reference(EmbeddedJsonModel):
@@ -145,9 +174,9 @@ class Vulnerability(JsonModel):
 
         self.timestamp = self.modified.timestamp()
 
-    def is_affected_version(self, version: str) -> bool:
+    def is_affected_package_version(self, *, package: Package, version: str) -> bool:
         for affected in self.affected:
-            if affected.is_affected_version(version):
+            if affected.is_affected_package_version(package=package, version=version):
                 return True
 
         return False
