@@ -1468,6 +1468,21 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
+name = "returns"
+version = "0.19.0"
+description = "Make your functions return something meaningful, typed, and safe!"
+category = "main"
+optional = false
+python-versions = ">=3.7,<4.0"
+files = [
+    {file = "returns-0.19.0-py3-none-any.whl", hash = "sha256:ae3ce9e5165d1218905291b4d5881b4e8a86ca478437bef3b0af1de8df57ec69"},
+    {file = "returns-0.19.0.tar.gz", hash = "sha256:4544bb67849c1ef1bbf7823759d433a773959e5b77a8fd06d01fef6d060f2ac5"},
+]
+
+[package.dependencies]
+typing-extensions = ">=4.0,<5.0"
+
+[[package]]
 name = "rfc3986"
 version = "1.5.0"
 description = "Validating URI References per RFC 3986"
@@ -2132,4 +2147,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10,<=3.11"
-content-hash = "8d19ad29b0a6d27c4aa8dae802d1da69c2c76a0ac17a87778a06a24bce8dc58c"
+content-hash = "656d1b08277b4917833984ca55ac90625038afdf2ff4307fe1f38dac5386b35c"
