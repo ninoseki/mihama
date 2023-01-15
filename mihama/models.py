@@ -136,6 +136,14 @@ class Affected(EmbeddedJsonModel):
     database_specific: dict[str, Any] | None = None
 
     def is_affected_package(self, package: Package) -> bool:
+        is_same_purl = (
+            package.purl is not None
+            and self.package.purl is not None
+            and package.purl == self.package.purl
+        )
+        if is_same_purl:
+            return True
+
         is_same_ecosystem = package.ecosystem == self.package.ecosystem
         is_same_name = package.name == self.package.name
         return is_same_ecosystem and is_same_name
@@ -144,7 +152,7 @@ class Affected(EmbeddedJsonModel):
         if version in (self.versions or []):
             return True
 
-        results = [range_.is_affected_version(version) for range_ in self.ranges]
+        results = [r.is_affected_version(version) for r in self.ranges]
         return all(results)
 
     def is_affected_package_version(self, *, package: Package, version: str) -> bool:
