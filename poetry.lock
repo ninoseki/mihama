@@ -2,14 +2,14 @@
 
 [[package]]
 name = "aiometer"
-version = "0.3.0"
+version = "0.4.0"
 description = "A Python concurrency scheduling library, compatible with asyncio and trio"
 category = "main"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 files = [
-    {file = "aiometer-0.3.0-py3-none-any.whl", hash = "sha256:1c3c6bb774d87105061a10c5e1eab5d70debae72d8a1c1ae0ebc84fb9bc172cc"},
-    {file = "aiometer-0.3.0.tar.gz", hash = "sha256:55df5af97ca91b10bcb92d6467cfb1cdfff2803733ea8078f7d7459ab28cac30"},
+    {file = "aiometer-0.4.0-py3-none-any.whl", hash = "sha256:020cc80716565deeb091eb1c0c78ee9693ed5177f193f56ec253de9dde794b23"},
+    {file = "aiometer-0.4.0.tar.gz", hash = "sha256:dfdd4c082d1dd03271216574ddaa9b0cd17bb0004f94992cc4c85fcbc1abfab5"},
 ]
 
 [package.dependencies]
@@ -2202,4 +2202,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "aaf1160404a33d1a4e74df55e0ecc5fe90c8b28476586bd2535a252aae0d66d3"
+content-hash = "541b5a90a9c0c87f9b2eb11a05d2b4b3d87f1cf6d378ea062201318a291c8a78"
