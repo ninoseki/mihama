@@ -16,7 +16,7 @@ def test_get_flatten_components(nested_component: Component):
 
 
 @pytest.fixture
-def bom(nested_component: list[Component]):
+def bom(nested_component: Component):
     return schemas.CycloneDX(components=[nested_component])
 
 

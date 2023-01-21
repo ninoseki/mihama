@@ -3,11 +3,11 @@ import functools
 import aiometer
 
 from mihama import crud, schemas
-from mihama.cache import cache
+from mihama.cache import cached
 from mihama.core import settings
 
 
-@cache()
+@cached()
 async def cached_query(query: schemas.Query) -> schemas.Vulnerabilities:
     vulns = await crud.vulnerability.search_by_query(query)
     return schemas.Vulnerabilities(vulns=vulns)
