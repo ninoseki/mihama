@@ -3,8 +3,6 @@ import asyncio
 import pytest
 import pytest_asyncio
 from fastapi import FastAPI
-from fastapi_cache import FastAPICache
-from fastapi_cache.backends.inmemory import InMemoryBackend
 from httpx import AsyncClient
 
 from mihama import crud, models
@@ -39,12 +37,7 @@ async def setup_redis(vulnerabilities: list[models.Vulnerability]):
 
 
 @pytest.fixture
-def setup_fastapi_cache():
-    FastAPICache.init(InMemoryBackend())
-
-
-@pytest.fixture
-def app(setup_redis, setup_fastapi_cache):
+def app(setup_redis):
     app = create_app(add_event_handlers=False)
     yield app
 
