@@ -152,7 +152,7 @@ class Affected(EmbeddedJsonModel):
         if version in (self.versions or []):
             return True
 
-        results = [r.is_affected_version(version) for r in self.ranges]
+        results = [r.is_affected_version(version) for r in self.ranges or []]
         return all(results)
 
     def is_affected_package_version(self, *, package: Package, version: str) -> bool:
