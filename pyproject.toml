@@ -20,7 +20,7 @@ redis = "^4.5.1"
 redis-om = "0.1.2"
 requests = "^2.28.2"
 returns = "^0.19.0"
-semver = "^2.13.0"
+semver = "^3.0.0"
 typer = "^0.7.0"
 ujson = "^5.7.0"
 uvicorn = {extras = ["standard"], version = "^0.21.1"}
