@@ -1068,19 +1068,20 @@ setuptools = "*"
 
 [[package]]
 name = "packageurl-python"
-version = "0.10.4"
+version = "0.11.1"
 description = "A purl aka. Package URL parser and builder"
 category = "main"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 files = [
-    {file = "packageurl-python-0.10.4.tar.gz", hash = "sha256:5c91334f942cd55d45eb0c67dd339a535ef90e25f05b9ec016ad188ed0ef9048"},
-    {file = "packageurl_python-0.10.4-py3-none-any.whl", hash = "sha256:bf8a1ffe755634776f6563904d792fb0aa13b377fc86115c36fe17f69b6e59db"},
+    {file = "packageurl-python-0.11.1.tar.gz", hash = "sha256:bbcc53d2cb5920c815c1626c75992f319bfc450b73893fa7bd8aac5869aa49fe"},
+    {file = "packageurl_python-0.11.1-py3-none-any.whl", hash = "sha256:4bad1d3ea4feb5e7a1db5ca8fb690ac9c82ab18e08d500755947b853df68817d"},
 ]
 
 [package.extras]
 build = ["wheel"]
-test = ["black", "isort", "pytest"]
+lint = ["black", "isort", "mypy"]
+test = ["pytest"]
 
 [[package]]
 name = "packaging"
@@ -2257,4 +2258,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "4296fa754c5cd6a62da7951ef30f3e749e0f9b6e1a53b048cd33e10d4a548718"
+content-hash = "d48b5c6d6bc2a6e0edbf8a077a35dd1a235c170966e11ced460551ab14cca70d"
