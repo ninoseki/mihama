@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.responses import ORJSONResponse
 from loguru import logger
 
 from .api.v1.api import api_router
@@ -17,6 +18,7 @@ def create_app(add_event_handlers: bool = True) -> FastAPI:
         debug=settings.DEBUG,
         title=settings.PROJECT_NAME,
         description=settings.PROJECT_DESCRIPTION,
+        default_response_class=ORJSONResponse,
     )
 
     # add middleware
