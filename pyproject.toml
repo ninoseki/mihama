@@ -24,7 +24,7 @@ returns = "^0.19.0"
 semver = "^3.0.0"
 typer = "^0.7.0"
 ujson = "^5.7.0"
-uvicorn = {extras = ["standard"], version = "^0.21.1"}
+uvicorn = {extras = ["standard"], version = "^0.22.0"}
 
 [tool.poetry.group.dev.dependencies]
 autoflake = "^2.0"
