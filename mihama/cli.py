@@ -22,7 +22,7 @@ async def with_redis_om_setup(func, *args, **kwargs):
 
 @app.command(help="Update OSV vulnerabilities by ecosystems")
 def update(
-    ecosystems: list[str] = list(settings.OSV_ECOSYSTEMS),
+    ecosystems: list[str] = list(settings.OSV_ECOSYSTEMS),  # noqa: B006
     overwrite: bool = typer.Option(
         True, help="Whether to overwrite vulnerability data with the same ID"
     ),
@@ -89,7 +89,7 @@ def cleanup(
     )
 ):
     @with_redis_om_setup
-    async def _cleanup():
+    async def _cleanup() -> None:
         all_pks: list[str] = []
         async for pk in await crud.vulnerability.all_pks():
             all_pks.append(pk)

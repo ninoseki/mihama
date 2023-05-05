@@ -1,12 +1,12 @@
 from datetime import datetime
 from typing import Any, cast
 
-import semver
 from aredis_om import Field
 from aredis_om.connections import get_redis_connection
 from returns.pipeline import flow
 from returns.pointfree import bind
 from returns.result import Result, safe
+from semver.version import Version
 
 from mihama.core import settings
 from mihama.monkeypatch.model import EmbeddedJsonModel, JsonModel
@@ -14,7 +14,10 @@ from mihama.osv.semver_index import parse
 
 
 @safe
-def safe_parse(version: str) -> semver.VersionInfo:
+def safe_parse(version: str | None) -> Version:
+    if version is None:
+        raise ValueError("version is None")
+
     return parse(version)
 
 
@@ -70,9 +73,9 @@ class Range(EmbeddedJsonModel):
 
         return None
 
-    def is_introduced(self, semver_version: semver.VersionInfo) -> bool:
+    def is_introduced(self, semver_version: Version) -> bool:
         @safe
-        def _is_introduced(semver_introduced: semver.VersionInfo):
+        def _is_introduced(semver_introduced: Version):
             return semver_version >= semver_introduced
 
         result = cast(
@@ -81,9 +84,9 @@ class Range(EmbeddedJsonModel):
         )
         return result.value_or(False)
 
-    def is_fixed(self, semver_version: semver.VersionInfo):
+    def is_fixed(self, semver_version: Version):
         @safe
-        def _is_fixed(semver_fixed: semver.VersionInfo):
+        def _is_fixed(semver_fixed: Version):
             return semver_version >= semver_fixed
 
         result = cast(
@@ -92,9 +95,9 @@ class Range(EmbeddedJsonModel):
         )
         return result.value_or(False)
 
-    def is_no_longer_affected(self, semver_version: semver.VersionInfo):
+    def is_no_longer_affected(self, semver_version: Version):
         @safe
-        def _is_no_longer_affected(semver_last_affected: semver.VersionInfo):
+        def _is_no_longer_affected(semver_last_affected: Version):
             return semver_version > semver_last_affected
 
         result = cast(

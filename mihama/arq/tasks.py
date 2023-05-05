@@ -1,4 +1,4 @@
-from typing import Optional, cast
+from typing import cast
 
 from arq.connections import ArqRedis
 from loguru import logger
@@ -34,12 +34,8 @@ async def update_by_ecosystem_task(_ctx: dict, ecosystem: str):
     await update_by_ecosystem(ecosystem)
 
 
-async def update_by_ecosystems_task(
-    ctx: dict,
-):
-    redis = cast(Optional[ArqRedis], ctx.get("redis", None))
-    if redis is None:
-        raise ValueError("context should have redis")
+async def update_by_ecosystems_task(ctx: dict):
+    redis = cast(ArqRedis, ctx["redis"])
 
     for ecosystem in settings.OSV_ECOSYSTEMS:
         await redis.enqueue_job(constants.UPDATE_BY_ECOSYSTEM_TASK, ecosystem=ecosystem)

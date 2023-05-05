@@ -13,15 +13,15 @@ def build_find_query_by_package(
     expressions: list[Expression] = []
 
     if package.name is not None:
-        expressions.append(models.Vulnerability.affected.package.name == package.name)
+        expressions.append(models.Vulnerability.affected.package.name == package.name)  # type: ignore
 
     if package.ecosystem is not None:
         expressions.append(
-            models.Vulnerability.affected.package.ecosystem == package.ecosystem
+            models.Vulnerability.affected.package.ecosystem == package.ecosystem  # type: ignore
         )
 
     if package.purl is not None:
-        expressions.append(models.Vulnerability.affected.package.purl == package.purl)
+        expressions.append(models.Vulnerability.affected.package.purl == package.purl)  # type: ignore
 
     return models.Vulnerability.find(*expressions)
 
@@ -34,15 +34,17 @@ class CRUDVulnerabilitySearchMixin:
         batch_size: int = settings.REDIS_OM_BATCH_SIZE,
         limit: int | None = None,
         offset: int | None = None,
-        sort_by: list[str] | None = ["-timestamp"]
+        sort_by: list[str] | None = None
     ) -> list[models.Vulnerability]:
+        sort_by = sort_by or ["-timestamp"]
+
         find_query = build_find_query_by_package(package)
         if sort_by is not None:
             find_query = find_query.sort_by(*sort_by)
 
         if limit is None and offset is None:
             # return all results if limit and offset are None
-            return await find_query.all(batch_size=batch_size)
+            return await find_query.all(batch_size=batch_size)  # type: ignore
 
         if limit is not None:
             find_query.limit = limit
@@ -50,7 +52,7 @@ class CRUDVulnerabilitySearchMixin:
         if offset is not None:
             find_query.offset = offset
 
-        return await find_query.execute(exhaust_results=False)
+        return await find_query.execute(exhaust_results=False)  # type: ignore
 
     async def search_by_query(
         self, query: schemas.Query, *, batch_size: int = settings.REDIS_OM_BATCH_SIZE
@@ -72,4 +74,4 @@ class CRUDVulnerabilitySearchMixin:
 
     async def count_by_package(self, package: PACKAGE) -> int:
         find_query = build_find_query_by_package(package)
-        return await find_query.count()
+        return await find_query.count()  # type: ignore

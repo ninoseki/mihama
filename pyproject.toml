@@ -58,3 +58,19 @@ mihama = "mihama.cli:app"
 
 [tool.mypy]
 plugins = ["pydantic.mypy", "returns.contrib.mypy.returns_plugin"]
+ignore_missing_imports = true
+
+[tool.ruff]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "C",    # flake8-comprehensions
+    "B",    # flake8-bugbear
+    "T20",  # flake8-print
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function call `...` in argument defaults
+]
