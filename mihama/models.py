@@ -137,6 +137,7 @@ class Affected(EmbeddedJsonModel):
     versions: list[str] | None = None
     ecosystem_specific: dict[str, Any] | None = None
     database_specific: dict[str, Any] | None = None
+    severity: Severity | None = None
 
     def is_affected_package(self, package: Package) -> bool:
         is_same_purl = (
