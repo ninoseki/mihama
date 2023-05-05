@@ -29,7 +29,23 @@ repos:
       - id: isort
         args: ["--profile", "black"]
 
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.265
+    hooks:
+      - id: ruff
+        args:
+          - --fix
+
   - repo: https://github.com/psf/black
     rev: 23.3.0
     hooks:
       - id: black
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.2.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - types-all
+          - pydantic[mypy]
+          - returns[mypy]

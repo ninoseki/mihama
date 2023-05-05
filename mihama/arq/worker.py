@@ -26,16 +26,19 @@ class ArqWorkerSettings:
 
     queue_name: str = settings.ARQ_DEFAULT_QUEUE_NAME
 
-    on_startup: StartupShutdown | None = startup
-    on_shutdown: StartupShutdown | None = shutdown
+    on_startup: StartupShutdown | None = startup  # type: ignore
+    on_shutdown: StartupShutdown | None = shutdown  # type: ignore
 
     functions: Sequence[Function | WorkerCoroutine] = [
-        func(tasks.update_by_ecosystem_task, name=constants.UPDATE_BY_ECOSYSTEM_TASK),
+        func(
+            tasks.update_by_ecosystem_task,  # type: ignore
+            name=constants.UPDATE_BY_ECOSYSTEM_TASK,
+        ),
     ]
 
     cron_jobs: Sequence[CronJob] | None = [
         cron(
-            tasks.update_by_ecosystems_task,
+            tasks.update_by_ecosystems_task,  # type: ignore
             name=constants.UPDATE_BY_ECOSYSTEMS_TASK,
             hour=settings.ARQ_CRON_JOBS_HOUR_INT_SET,
             minute=settings.ARQ_CRON_JOBS_MINUTE_INT_SET,
