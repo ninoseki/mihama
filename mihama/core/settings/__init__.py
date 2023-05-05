@@ -10,7 +10,7 @@ from .arq import (  # noqa:F401
 from .config import config
 from .osv import (  # noqa: F401
     OSV_BUCKET_BASE_URL,
-    OSV_BUCKET_DOWNLOAD_TIMEOUT,
+    OSV_BUCKET_TIMEOUT,
     OSV_ECOSYSTEMS,
     OSV_QUERY_BATCH_MAX_AT_ONCE,
 )

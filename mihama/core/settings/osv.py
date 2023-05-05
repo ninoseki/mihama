@@ -87,8 +87,8 @@ OSV_ECOSYSTEMS: UniqueCommaSeparatedStrings = config(
     default=get_osv_ecosystems(),
 )
 
-OSV_BUCKET_DOWNLOAD_TIMEOUT: int = config(
-    "OSV_BUCKET_DOWNLOAD_TIMEOUT",
+OSV_BUCKET_TIMEOUT: int = config(
+    "OSV_BUCKET_TIMEOUT",
     cast=int,
     default=180,
 )
