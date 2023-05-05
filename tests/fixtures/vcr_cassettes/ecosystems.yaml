@@ -1,0 +1,159 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.29.0
+    method: GET
+    uri: https://osv-vulnerabilities.storage.googleapis.com/ecosystems.txt
+  response:
+    body:
+      string: 'AlmaLinux
+
+        AlmaLinux:8
+
+        AlmaLinux:9
+
+        Alpine
+
+        Alpine:v3.10
+
+        Alpine:v3.11
+
+        Alpine:v3.12
+
+        Alpine:v3.13
+
+        Alpine:v3.14
+
+        Alpine:v3.15
+
+        Alpine:v3.16
+
+        Alpine:v3.17
+
+        Alpine:v3.2
+
+        Alpine:v3.3
+
+        Alpine:v3.4
+
+        Alpine:v3.5
+
+        Alpine:v3.6
+
+        Alpine:v3.7
+
+        Alpine:v3.8
+
+        Alpine:v3.9
+
+        Android
+
+        Debian
+
+        Debian:10
+
+        Debian:11
+
+        Debian:3.0
+
+        Debian:3.1
+
+        Debian:4.0
+
+        Debian:5.0
+
+        Debian:6.0
+
+        Debian:7
+
+        Debian:8
+
+        Debian:9
+
+        GSD
+
+        GitHub Actions
+
+        Go
+
+        Hex
+
+        Linux
+
+        Maven
+
+        NuGet
+
+        OSS-Fuzz
+
+        Packagist
+
+        Pub
+
+        PyPI
+
+        Rocky Linux
+
+        Rocky Linux:8
+
+        Rocky Linux:9
+
+        RubyGems
+
+        UVI
+
+        crates.io
+
+        npm
+
+        '
+    headers:
+      Accept-Ranges:
+      - bytes
+      Age:
+      - '2364'
+      Alt-Svc:
+      - h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+      Cache-Control:
+      - public, max-age=3600
+      Content-Length:
+      - '497'
+      Content-Type:
+      - text/plain
+      Date:
+      - Fri, 05 May 2023 07:16:14 GMT
+      ETag:
+      - '"ad71ceb5479ecb9bb6f56b5126d9499d"'
+      Expires:
+      - Fri, 05 May 2023 08:16:14 GMT
+      Last-Modified:
+      - Fri, 05 May 2023 06:31:13 GMT
+      Server:
+      - UploadServer
+      X-GUploader-UploadID:
+      - ADPycduXsTWshX5ejYFC7mxurqAD977aveDac_tQhIwck6JroX3Y2-2RgknpAtD0SldJe6VJG-zQuC5W2kWEaxJMarscWQ
+      x-goog-generation:
+      - '1683268273780438'
+      x-goog-hash:
+      - crc32c=rGSMfA==
+      - md5=rXHOtUeey5u29WtRJtlJnQ==
+      x-goog-metageneration:
+      - '1'
+      x-goog-storage-class:
+      - STANDARD
+      x-goog-stored-content-encoding:
+      - identity
+      x-goog-stored-content-length:
+      - '497'
+    status:
+      code: 200
+      message: OK
+version: 1
