@@ -15,8 +15,8 @@ services:
       dockerfile: default.Dockerfile
     command: poetry run arq mihama.arq.worker.ArqWorkerSettings
     environment:
-      - TESTING=False
-      - DEBUG=False
+      - TESTING=${TESTING:-False}
+      - DEBUG=${DEBUG:-False}
       - REDIS_OM_URL=redis://redis:${REDIS_PORT:-6379}
       - REDIS_CACHE_URL=redis://redis:${REDIS_PORT:-6379}
       - ARQ_REDIS_URL=redis://redis:${REDIS_PORT:-6379}
@@ -32,8 +32,8 @@ services:
     ports:
       - ${PORT:-8000}:${PORT:-8000}
     environment:
-      - TESTING=False
-      - DEBUG=False
+      - TESTING=${TESTING:-False}
+      - DEBUG=${DEBUG:-False}
       - PORT=${PORT:-8000}
       - REDIS_OM_URL=redis://redis:${REDIS_PORT:-6379}
       - REDIS_CACHE_URL=redis://redis:${REDIS_PORT:-6379}
