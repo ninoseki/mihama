@@ -6,7 +6,6 @@ authors = ["Manabu Niseki <manabu.niseki@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-aiocache = "^0.12.1"
 aiometer = "^0.4.0"
 arq = "^0.25.0"
 decorator = "^5.1.1"
