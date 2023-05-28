@@ -7,10 +7,8 @@ RUN apt-get update \
 
 COPY pyproject.toml poetry.lock gunicorn.conf.py requirements.txt ./
 
-RUN pip install -U --no-cache-dir pip==22.3.1 \
+RUN pip install -U --no-cache-dir pip==23.1.2 \
 	&& pip install --no-cache-dir -r requirements.txt \
 	&& poetry install --without dev
 
 COPY mihama ./mihama
-
-EXPOSE $PORT
