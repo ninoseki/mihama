@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 
 from mihama import schemas
-from mihama.api.v1.query import batch_query, cached_query
+from mihama.api.v1.query import batch_query
+from mihama.api.v1.query import query as _query
 
 router = APIRouter()
 
@@ -13,7 +14,7 @@ router = APIRouter()
     description="Query vulnerabilities for a particular project at a given commit or version.",
 )
 async def query(query: schemas.Query) -> schemas.Vulnerabilities:
-    return await cached_query(query)
+    return await _query(query)
 
 
 @router.post(

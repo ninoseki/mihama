@@ -14,14 +14,7 @@ from .osv import (  # noqa: F401
     OSV_ECOSYSTEMS,
     OSV_QUERY_BATCH_MAX_AT_ONCE,
 )
-from .redis import (  # noqa: F401
-    REDIS_CACHE_NAMESPACE,
-    REDIS_CACHE_PREFIX,
-    REDIS_CACHE_TTL,
-    REDIS_CACHE_URL,
-    REDIS_OM_BATCH_SIZE,
-    REDIS_OM_URL,
-)
+from .redis import REDIS_OM_BATCH_SIZE, REDIS_OM_URL  # noqa: F401
 
 PROJECT_NAME: str = config("PROJECT_NAME", default="mihama")
 PROJECT_DESCRIPTION: str = config("PROJECT_DESCRIPTION", default="osv.dev API clone")
