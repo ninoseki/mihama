@@ -12,7 +12,8 @@ class Component(BaseModel):
     def get_flatten_components(
         self,
     ) -> list["Component"]:
-        flatten = [self]
+        flatten: list["Component"] = []
+        flatten.append(self)
 
         for c in self.components:
             flatten.extend(c.get_flatten_components())

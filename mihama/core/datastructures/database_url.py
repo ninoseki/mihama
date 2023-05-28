@@ -95,7 +95,7 @@ class DatabaseURL:
             or "hostname" in kwargs
             or "port" in kwargs
         ):
-            hostname = kwargs.pop("hostname", self.hostname)
+            hostname = typing.cast(str, kwargs.pop("hostname", self.hostname))
             port = kwargs.pop("port", self.port)
             username = kwargs.pop("username", self.components.username)
             password = kwargs.pop("password", self.components.password)
