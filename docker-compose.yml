@@ -18,7 +18,6 @@ services:
       - TESTING=${TESTING:-False}
       - DEBUG=${DEBUG:-False}
       - REDIS_OM_URL=redis://redis:${REDIS_PORT:-6379}
-      - REDIS_CACHE_URL=redis://redis:${REDIS_PORT:-6379}
       - ARQ_REDIS_URL=redis://redis:${REDIS_PORT:-6379}
     restart: always
     depends_on:
@@ -36,7 +35,6 @@ services:
       - DEBUG=${DEBUG:-False}
       - PORT=${PORT:-8000}
       - REDIS_OM_URL=redis://redis:${REDIS_PORT:-6379}
-      - REDIS_CACHE_URL=redis://redis:${REDIS_PORT:-6379}
       - REDIS_ARQ_URL=redis://redis:${REDIS_PORT:-6379}
     restart: always
     depends_on:
