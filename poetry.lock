@@ -1905,13 +1905,13 @@ test = ["Cython (>=0.29.32,<0.30.0)", "aiohttp", "flake8 (>=3.9.2,<3.10.0)", "my
 
 [[package]]
 name = "vcrpy"
-version = "4.3.1"
+version = "5.0.0"
 description = "Automatically mock your HTTP interactions to simplify and speed up testing"
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "vcrpy-4.3.1-py2.py3-none-any.whl", hash = "sha256:35398f1b373f32340f39d735ea45f40d679ace316f3dddf8cbcbc2f120e6d1d0"},
-    {file = "vcrpy-4.3.1.tar.gz", hash = "sha256:24e2d450bf1c2f9f9b4246ee91beb7d58f862a9f2f030514b14783b83c5146ec"},
+    {file = "vcrpy-5.0.0-py2.py3-none-any.whl", hash = "sha256:28b66c87be7678896e9e78fee4f6695e3fb153d5d7e5f635416a33658452bb44"},
+    {file = "vcrpy-5.0.0.tar.gz", hash = "sha256:1ef3ddea819a26eda10b560c70bd74c41855241d431745712e31a5b2de2d05a8"},
 ]
 
 [package.dependencies]
@@ -2241,4 +2241,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "8a4a4053095b76b76d2476a4b69f28c77b2a860a4a9ac5e61b1d4d95a55c3b0a"
+content-hash = "8b3c953b867bb2a2a1c8af5deb456b768a266a1b2a3d28c9a24a960baa38e524"
