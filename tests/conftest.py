@@ -1,9 +1,12 @@
 import asyncio
+import os
 
+import ci
 import pytest
 import pytest_asyncio
 from fastapi import FastAPI
 from httpx import AsyncClient
+from pytest_docker.plugin import Services
 
 from mihama import crud, models
 from mihama.core import settings
@@ -11,6 +14,31 @@ from mihama.core.datastructures import DatabaseURL
 from mihama.factories.vulnerability import VulnerabilityFactory
 from mihama.main import create_app
 from mihama.redis import setup_redis_om
+
+from .utils import is_responsive
+
+
+@pytest.fixture(scope="session")
+def docker_compose_file(pytestconfig):
+    return os.path.join(str(pytestconfig.rootdir), "test.docker-compose.yml")
+
+
+if not ci.is_ci():
+
+    @pytest.fixture(scope="session", autouse=True)
+    def docker_compose(docker_ip: str, docker_services: Services):  # type: ignore
+        port = docker_services.port_for("redis", 8001)
+        url = f"http://{docker_ip}:{port}"
+        docker_services.wait_until_responsive(
+            timeout=30.0, pause=0.1, check=lambda: is_responsive(url)
+        )
+        return url
+
+else:
+
+    @pytest.fixture
+    def docker_compose():
+        return
 
 
 @pytest.fixture(scope="session")
