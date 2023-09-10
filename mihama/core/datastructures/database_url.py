@@ -137,7 +137,7 @@ class DatabaseURL:
         return self._url
 
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({repr(self.obscure_password)})"
+        return f"{self.__class__.__name__}({self.obscure_password!r})"
 
     def __eq__(self, other: typing.Any) -> bool:
         return str(self) == str(other)

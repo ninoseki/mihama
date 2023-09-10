@@ -33,9 +33,8 @@ def check_redis_host(redis_url: DatabaseURL = settings.REDIS_OM_URL):
 
 
 @pytest_asyncio.fixture
-async def setup_redis(
-    vulnerabilities: list[models.Vulnerability], _=check_redis_host()
-):
+async def setup_redis(vulnerabilities: list[models.Vulnerability]):
+    check_redis_host()
     # setup migrations for using redis-om
     await setup_redis_om()
 
