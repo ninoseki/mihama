@@ -20,14 +20,13 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.11"]
-        poetry-version: ["1.5.1"]
+        poetry-version: ["1.6.1"]
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Install dependencies
-        run: |
-          sudo apt-get -yqq install build-essential
+        run: sudo apt-get -yqq install build-essential
 
       - name: Setup poetry
         uses: abatilo/actions-poetry@v2

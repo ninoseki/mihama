@@ -12,7 +12,7 @@ from .package import BasePackage
 
 class ExcludePkMixin(BaseModel):
     class Config:
-        fields = {"pk": {"exclude": True}}
+        fields = {"pk": {"exclude": True}}  # noqa: RUF012
 
 
 class Severity(models.Severity, ExcludePkMixin):
