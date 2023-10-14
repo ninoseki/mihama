@@ -8,6 +8,10 @@ from .arq import (  # noqa:F401
     ARQ_REDIS_SETTINGS,
 )
 from .config import config
+from .ossf import (  # noqa: F401
+    ENABLE_OSSF_MALICIOUS_PACKAGES,
+    OSSF_MALICIOUS_PACKAGES_REPO_URL,
+)
 from .osv import (  # noqa: F401
     OSV_BUCKET_BASE_URL,
     OSV_BUCKET_TIMEOUT,
