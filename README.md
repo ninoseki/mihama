@@ -6,7 +6,12 @@
 
 osv.dev is an OSS project. ([google/osv.dev](https://github.com/google/osv.dev))
 
-But it is highly coupled with GCP. So it is difficult to deploy osv.dev on premise. (ref. [Deploy osv.dev on-premise #546](https://github.com/google/osv.dev/issues/546))
+But it is highly coupled with GCP. So it's difficult to deploy osv.dev on premise. (ref. [Deploy osv.dev on-premise #546](https://github.com/google/osv.dev/issues/546))
+
+## Supported Sources
+
+- [google/osv.dev](https://github.com/google/osv.dev)
+- [ossf/malicious-packages)](https://github.com/ossf/malicious-packages)
 
 ## Extra features
 
