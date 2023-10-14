@@ -28,6 +28,7 @@ class OptionalPurlMixin(BaseModel):
     )
 
     @validator("purl")
+    @classmethod
     def purl_format(cls, v: str | None):
         if v is None:
             return v

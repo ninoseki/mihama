@@ -6,9 +6,9 @@ authors = ["Manabu Niseki <manabu.niseki@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-aiometer = "^0.4.0"
-arq = "^0.25.0"
-decorator = "^5.1.1"
+aiometer = "^0.4"
+arq = "^0.25"
+decorator = "^5.1"
 fastapi = "^0.103"
 gunicorn = "^21.2"
 loguru = "^0.7"
@@ -18,19 +18,16 @@ purl = "^1.6"
 pydantic = "1.10.12"
 pyhumps = "^3.8"
 redis = "^4.0"
-redis-om = "^0.1"
-requests = "2.31.0"
+redis-om = "^0.2"
+requests = "2.31"
 returns = "^0.22"
 semver = "^3.0"
 typer = "^0.9"
 uvicorn = { extras = ["standard"], version = "^0.23" }
 
 [tool.poetry.group.dev.dependencies]
-autoflake = "^2.2"
-autopep8 = "^2.0"
 black = "^23.3"
 ci-py = "^1.0.0"
-flake8 = "^6.0"
 httpx = "^0.24"
 mypy = "^1.5"
 nest-asyncio = "^1.5"
@@ -41,11 +38,8 @@ pytest-cov = "^4.1"
 pytest-docker = "^2.0.1"
 pytest-mock = "^3.11"
 pytest-randomly = "^3.15"
-pytest-sugar = "^0.9"
-pyupgrade = "^3.10"
-ruff = "^0.0"
 types-requests = "2.31"
-vcrpy = "^5.0"
+vcrpy = "^5.1"
 
 [build-system]
 requires = ["poetry-core"]
@@ -63,14 +57,18 @@ ignore_missing_imports = true
 
 [tool.ruff]
 select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes
-    "C",   # flake8-comprehensions
-    "B",   # flake8-bugbear
-    "T20", # flake8-print
-    "I",   # isort
-    "RUF", # Ruff-specific rules
+    "ASYNC", # flake8-async
+    "B",     # flake8-bugbear
+    "C",     # flake8-comprehensions
+    "E",     # pycodestyle errors
+    "F",     # pyflakes
+    "I",     # isort
+    "N",     # pep8-naming
+    "RET",   # flake8-return
+    "RUF",   # Ruff-specific rules
+    "SIM",   # flake8-simplify
+    "T20",   # flake8-print
+    "W",     # pycodestyle warnings
 ]
 ignore = [
     "E501", # line too long, handled by black

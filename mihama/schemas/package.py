@@ -17,6 +17,7 @@ class BasePackage(BaseModel):
     )
 
     @validator("purl")
+    @classmethod
     def purl_format(cls, v: str | None):
         if v is None:
             return v
