@@ -69,6 +69,7 @@ class Vulnerability(BaseModel):
 
 class Package(BasePackage):
     @root_validator
+    @classmethod
     def check_consistency(cls, values: dict[str, Any]):
         has_ecosystem = values.get("ecosystem") is not None
         has_name = values.get("name") is not None
@@ -100,6 +101,7 @@ class Query(BaseModel):
     )
 
     @root_validator
+    @classmethod
     def check_consistency(cls, values: dict[str, Any]):
         has_commit = values.get("commit") is not None
         has_version = values.get("version") is not None
