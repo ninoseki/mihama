@@ -50,10 +50,13 @@ class Credit(models.Reference, ExcludePkMixin):
     pass
 
 
-class Vulnerability(BaseModel):
-    schema_version: str | None = None
+class BaseVulnerability(BaseModel):
     id: str
     modified: datetime
+
+
+class Vulnerability(BaseVulnerability):
+    schema_version: str | None = None
     published: datetime | None = None
     withdrawn: datetime | None = None
     aliases: list[str] | None = None
@@ -65,6 +68,9 @@ class Vulnerability(BaseModel):
     references: list[Reference] | None = None
     credits: list[Credit] | None = None
     database_specific: dict[str, Any] | None = None
+
+    def simplify(self):
+        return BaseVulnerability(id=self.id, modified=self.modified)
 
 
 class Package(BasePackage):
@@ -119,17 +125,15 @@ class Query(BaseModel):
         return values
 
 
+class BaseVulnerabilities(BaseModel):
+    vulns: list[BaseVulnerability]
+
+
 class Vulnerabilities(BaseModel):
     vulns: list[Vulnerability]
 
-
-class SimplifiedVulnerability(BaseModel):
-    id: str
-    modified: datetime | None
-
-
-class SimplifiedVulnerabilities(BaseModel):
-    vulns: list[SimplifiedVulnerability]
+    def simplify(self) -> BaseVulnerabilities:
+        return BaseVulnerabilities(vulns=[v.simplify() for v in self.vulns])
 
 
 class BatchQuery(BaseModel):
@@ -137,4 +141,4 @@ class BatchQuery(BaseModel):
 
 
 class BatchResponse(BaseModel):
-    results: list[SimplifiedVulnerabilities]
+    results: list[BaseVulnerabilities]

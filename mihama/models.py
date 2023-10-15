@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast
 
 from aredis_om import Field
 from aredis_om.connections import get_redis_connection
@@ -11,6 +11,9 @@ from semver.version import Version
 from mihama.core import settings
 from mihama.monkeypatch.model import EmbeddedJsonModel, JsonModel
 from mihama.osv.semver_index import parse
+
+if TYPE_CHECKING:
+    from mihama import schemas
 
 
 @safe
@@ -139,7 +142,7 @@ class Affected(EmbeddedJsonModel):
     database_specific: dict[str, Any] | None = None
     severity: Severity | None = None
 
-    def is_affected_package(self, package: Package) -> bool:
+    def is_affected_package(self, package: "Package | schemas.Package") -> bool:
         is_same_purl = (
             package.purl is not None
             and self.package.purl is not None
@@ -159,7 +162,9 @@ class Affected(EmbeddedJsonModel):
         results = [r.is_affected_version(version) for r in self.ranges or []]
         return all(results)
 
-    def is_affected_package_version(self, *, package: Package, version: str) -> bool:
+    def is_affected_package_version(
+        self, *, package: "Package | schemas.Package", version: str
+    ) -> bool:
         if not self.is_affected_package(package):
             return False
 
@@ -200,7 +205,9 @@ class Vulnerability(JsonModel):
 
         self.timestamp = self.modified.timestamp()
 
-    def is_affected_package_version(self, *, package: Package, version: str) -> bool:
+    def is_affected_package_version(
+        self, *, package: "Package | schemas.Package", version: str
+    ) -> bool:
         for affected in self.affected:
             if affected.is_affected_package_version(package=package, version=version):
                 return True

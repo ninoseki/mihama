@@ -57,7 +57,7 @@ def coerce(version: str) -> str:
 
 def is_valid(version: str) -> bool:
     """Returns whether or not the version is a valid semver."""
-    return semver.VersionInfo.isvalid(_strip_leading_v(version))
+    return semver.VersionInfo.is_valid(_strip_leading_v(version))
 
 
 def parse(version: str) -> semver.VersionInfo:

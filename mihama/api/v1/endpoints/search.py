@@ -24,5 +24,6 @@ async def search_by_package(
     vulns = await crud.vulnerability.search_by_package(
         normalized, limit=limit, offset=offset
     )
-
-    return schemas.SearchResults(vulns=vulns, total=count)
+    return schemas.SearchResults(
+        vulns=[schemas.Vulnerability.parse_obj(v) for v in vulns], total=count
+    )

@@ -1,5 +1,6 @@
 from .cyclonedx import CycloneDX  # noqa: F401
 from .osv import (  # noqa: F401
+    BaseVulnerability,
     BatchQuery,
     BatchResponse,
     Package,
