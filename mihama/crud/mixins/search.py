@@ -4,11 +4,11 @@ from mihama import models, schemas
 from mihama.core import settings
 from mihama.query import normalize_query
 
-PACKAGE = schemas.BasePackage | schemas.Package
+UnionPackage = schemas.BasePackage | schemas.Package
 
 
 def build_find_query_by_package(
-    package: PACKAGE,
+    package: UnionPackage,
 ) -> FindQuery:
     expressions: list[Expression] = []
 
@@ -29,7 +29,7 @@ def build_find_query_by_package(
 class CRUDVulnerabilitySearchMixin:
     async def search_by_package(
         self,
-        package: PACKAGE,
+        package: UnionPackage,
         *,
         batch_size: int = settings.REDIS_OM_BATCH_SIZE,
         limit: int | None = None,
@@ -58,20 +58,21 @@ class CRUDVulnerabilitySearchMixin:
         self, query: schemas.Query, *, batch_size: int = settings.REDIS_OM_BATCH_SIZE
     ) -> list[models.Vulnerability]:
         normalized = normalize_query(query)
-        if normalized.package is None or normalized.version is None:
+        if normalized.package is None:
             return []
 
-        vulnerabilities = await self.search_by_package(
-            normalized.package, batch_size=batch_size
-        )
+        vulns = await self.search_by_package(normalized.package, batch_size=batch_size)
+        if normalized.version is None:
+            return vulns
+
         return [
             v
-            for v in vulnerabilities
+            for v in vulns
             if v.is_affected_package_version(
                 package=normalized.package, version=normalized.version
             )
         ]
 
-    async def count_by_package(self, package: PACKAGE) -> int:
+    async def count_by_package(self, package: UnionPackage) -> int:
         find_query = build_find_query_by_package(package)
         return await find_query.count()  # type: ignore
