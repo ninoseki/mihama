@@ -11,7 +11,7 @@ But it is highly coupled with GCP. So it's difficult to deploy osv.dev on premis
 ## Supported Sources
 
 - [google/osv.dev](https://github.com/google/osv.dev)
-- [ossf/malicious-packages)](https://github.com/ossf/malicious-packages)
+- [ossf/malicious-packages](https://github.com/ossf/malicious-packages)
 
 ## Extra features
 
