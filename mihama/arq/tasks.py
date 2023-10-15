@@ -27,9 +27,9 @@ async def update_vulns(vulns: list[models.Vulnerability], *, overwrite: bool = T
 async def update_by_ecosystem(ecosystem: str, *, overwrite: bool = True):
     vulns = VulnerabilityFactory.by_ecosystem(ecosystem)
 
-    logger.info(f"{ecosystem} has {len(vulns)} vulnerabilities...")
+    logger.info(f"osv.dev's {ecosystem} has {len(vulns)} vulnerabilities...")
     await update_vulns(vulns, overwrite=overwrite)
-    logger.info(f"Updated {len(vulns)} vulnerabilities from OSV's {ecosystem}")
+    logger.info(f"Updated {len(vulns)} vulnerabilities from osv.dev's {ecosystem}")
 
 
 async def update_by_ecosystem_task(_ctx: dict, ecosystem: str):
