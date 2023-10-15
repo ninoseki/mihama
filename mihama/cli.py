@@ -1,8 +1,9 @@
 import asyncio
 import functools
+from collections.abc import Callable, Coroutine
+from typing import Any, ParamSpec, TypeVar
 
 import aiometer
-import decorator
 import typer
 from loguru import logger
 
@@ -11,13 +12,25 @@ from mihama.arq.tasks import update_by_ecosystem
 from mihama.core import settings
 from mihama.redis import setup_redis_om
 
+T_Retval = TypeVar("T_Retval")
+T_ParamSpec = ParamSpec("T_ParamSpec")
+T = TypeVar("T")
+
 app = typer.Typer()
 
 
-@decorator.decorator
-async def with_redis_om_setup(func, *args, **kwargs):
-    await setup_redis_om()
-    return await func(*args, **kwargs)
+def with_redis_om_setup(
+    async_function: Callable[T_ParamSpec, Coroutine[Any, Any, T_Retval]]
+) -> Callable[T_ParamSpec, Coroutine[Any, Any, T_Retval]]:
+    @functools.wraps(async_function)
+    async def wrapper(
+        *args: T_ParamSpec.args, **kwargs: T_ParamSpec.kwargs
+    ) -> T_Retval:
+        await setup_redis_om()
+        partial_f = functools.partial(async_function, *args, **kwargs)
+        return await partial_f()
+
+    return wrapper
 
 
 @app.command(help="Update OSV vulnerabilities by ecosystems")
