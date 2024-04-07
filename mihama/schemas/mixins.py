@@ -1,5 +1,5 @@
 from packageurl import PackageURL
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 name_description = "Name of the package. Should match the name used in the package ecosystem (e.g. the npm package name)"
 ecosystem_description = "The ecosystem for this package"
@@ -27,7 +27,7 @@ class OptionalPurlMixin(BaseModel):
         description="The package URL for this package.",
     )
 
-    @validator("purl")
+    @field_validator("purl")
     @classmethod
     def purl_format(cls, v: str | None):
         if v is None:

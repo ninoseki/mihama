@@ -3,12 +3,12 @@ import pytest
 from mihama import schemas
 
 
-@pytest.fixture
+@pytest.fixture()
 def spdx():
     # this file contains one PURL package only
-    return schemas.SPDX.parse_file("tests/fixtures/spdx/example.json")
+    with open("tests/fixtures/spdx/example.json") as f:
+        return schemas.SPDX.model_validate_json(f.read())
 
 
-def test_to_batch_query(spdx: schemas.SPDX):
-    batch_query = spdx.to_batch_query()
-    assert len(batch_query.queries) == 1
+def test_to_queries(spdx: schemas.SPDX):
+    assert len(spdx.to_queries().queries) == 1
