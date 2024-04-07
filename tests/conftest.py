@@ -7,10 +7,17 @@ import pytest
 from elasticsearch import AsyncElasticsearch
 from fastapi import FastAPI
 from pytest_docker.plugin import Services
+from starlette.config import Config
+from starlette.datastructures import Secret
 
 from mihama import crud, deps, schemas
 from mihama.factories.vulnerability import VulnerabilityFactory
 from mihama.main import create_app
+
+config = Config()
+
+ES_HOSTS = config("ES_HOSTS", cast=str, default="http://localhost:9200")
+ES_PASSWORD: Secret = config("ES_PASSWORD", cast=Secret, default="changeme")
 
 
 @pytest.fixture(scope="session")
@@ -31,7 +38,7 @@ else:
     ):  # type: ignore
         def ping():
             try:
-                httpx.get("http://localhost:9200")
+                httpx.get(ES_HOSTS[0])
                 return True
             except Exception:
                 return False
@@ -44,8 +51,8 @@ else:
 @asynccontextmanager
 async def get_es():
     es = AsyncElasticsearch(
-        hosts=["http://localhost:9200"],
-        basic_auth=("elastic", "changeme"),
+        hosts=list(ES_HOSTS),
+        basic_auth=("elastic", str(ES_PASSWORD)),
     )
     yield es
     await es.close()
