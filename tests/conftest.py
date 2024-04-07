@@ -8,7 +8,7 @@ from elasticsearch import AsyncElasticsearch
 from fastapi import FastAPI
 from pytest_docker.plugin import Services
 from starlette.config import Config
-from starlette.datastructures import Secret
+from starlette.datastructures import CommaSeparatedStrings, Secret
 
 from mihama import crud, deps, schemas
 from mihama.factories.vulnerability import VulnerabilityFactory
@@ -16,7 +16,9 @@ from mihama.main import create_app
 
 config = Config()
 
-ES_HOSTS = config("ES_HOSTS", cast=str, default="http://localhost:9200")
+ES_HOSTS: CommaSeparatedStrings = config(
+    "ES_HOSTS", cast=CommaSeparatedStrings, default="http://localhost:9200"
+)
 ES_PASSWORD: Secret = config("ES_PASSWORD", cast=Secret, default="changeme")
 
 
