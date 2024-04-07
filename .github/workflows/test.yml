@@ -20,6 +20,7 @@ jobs:
         uses: elastic/elastic-github-actions/elasticsearch@master
         with:
           stack-version: 8.3.0
+          security-enabled: false
       - uses: actions/checkout@v4
       - name: Setup poetry
         uses: abatilo/actions-poetry@v3
@@ -33,6 +34,6 @@ jobs:
         run: poetry install
       - name: Run tests
         env:
-          ES_HOSTS: https://es1:9200
+          ES_HOSTS: http://es1:9200
           ES_PASSWORD: changeme
         run: poetry run pytest
