@@ -6,15 +6,13 @@ from arq.cron import CronJob, cron
 from arq.typing import StartupShutdown, WorkerCoroutine
 from arq.worker import Function, func
 
-from mihama.core import settings
-from mihama.redis import setup_redis_om
+from mihama import settings
 
 from . import constants, tasks
 
 
 async def startup(_: dict[Any, Any]) -> None:
-    # setup Redis OM
-    await setup_redis_om()
+    pass
 
 
 async def shutdown(_: dict[Any, Any]) -> None:
@@ -28,8 +26,8 @@ def cron_jobs_builder(
         cron(
             tasks.update_by_ecosystems_task,  # type: ignore
             name=constants.UPDATE_BY_ECOSYSTEMS_TASK,
-            hour=settings.ARQ_CRON_JOBS_HOUR_INT_SET,
-            minute=settings.ARQ_CRON_JOBS_MINUTE_INT_SET,
+            hour=settings.ARQ_CRON_JOBS_HOUR,
+            minute=settings.ARQ_CRON_JOBS_MINUTE,
             run_at_startup=settings.ARQ_CRON_JOBS_RUN_AT_START_UP,
         ),
     ]
@@ -39,8 +37,8 @@ def cron_jobs_builder(
             cron(
                 tasks.update_ossf_malicious_packages_task,  # type: ignore
                 name=constants.UPDATE_OSSF_MALICIOUS_PACKAGES_TASK,
-                hour=settings.ARQ_CRON_JOBS_HOUR_INT_SET,
-                minute=settings.ARQ_CRON_JOBS_MINUTE_INT_SET,
+                hour=settings.ARQ_CRON_JOBS_HOUR,
+                minute=settings.ARQ_CRON_JOBS_MINUTE,
                 run_at_startup=settings.ARQ_CRON_JOBS_RUN_AT_START_UP,
             ),
         )
@@ -49,7 +47,7 @@ def cron_jobs_builder(
 
 
 class ArqWorkerSettings:
-    redis_settings: RedisSettings = settings.ARQ_REDIS_SETTINGS
+    redis_settings: RedisSettings = settings.REDIS_SETTINGS
 
     queue_name: str = settings.ARQ_DEFAULT_QUEUE_NAME
 

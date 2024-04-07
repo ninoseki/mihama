@@ -1,21 +1,25 @@
-import asyncio
 import os
+from contextlib import asynccontextmanager
 
 import ci
+import httpx
 import pytest
-import pytest_asyncio
+from elasticsearch import AsyncElasticsearch
 from fastapi import FastAPI
-from httpx import AsyncClient
 from pytest_docker.plugin import Services
+from starlette.config import Config
+from starlette.datastructures import CommaSeparatedStrings, Secret
 
-from mihama import crud, models
-from mihama.core import settings
-from mihama.core.datastructures import DatabaseURL
+from mihama import crud, deps, schemas
 from mihama.factories.vulnerability import VulnerabilityFactory
 from mihama.main import create_app
-from mihama.redis import setup_redis_om
 
-from .utils import is_responsive
+config = Config()
+
+ES_HOSTS: CommaSeparatedStrings = config(
+    "ES_HOSTS", cast=CommaSeparatedStrings, default="http://localhost:9200"
+)
+ES_PASSWORD: Secret = config("ES_PASSWORD", cast=Secret, default="changeme")
 
 
 @pytest.fixture(scope="session")
@@ -23,64 +27,67 @@ def docker_compose_file(pytestconfig):
     return os.path.join(str(pytestconfig.rootdir), "test.docker-compose.yml")
 
 
-if not ci.is_ci():
+if ci.is_ci():
 
-    @pytest.fixture(scope="session", autouse=True)
-    def docker_compose(docker_ip: str, docker_services: Services):  # type: ignore
-        port = docker_services.port_for("redis", 8001)
-        url = f"http://{docker_ip}:{port}"
-        docker_services.wait_until_responsive(
-            timeout=30.0, pause=0.1, check=lambda: is_responsive(url)
-        )
-        return url
-
+    @pytest.fixture(scope="session")
+    def docker_compose():  # type: ignore # noqa: PT004
+        return
 else:
 
-    @pytest.fixture
-    def docker_compose():
-        return
+    @pytest.fixture(scope="session")
+    def docker_compose(  # type; ignore # noqa: PT004
+        docker_services: Services,
+    ):  # type: ignore
+        def ping():
+            try:
+                httpx.get(ES_HOSTS[0])
+                return True
+            except Exception:
+                return False
+
+        docker_services.wait_until_responsive(
+            timeout=30.0, pause=0.1, check=lambda: ping()
+        )
+
+
+@asynccontextmanager
+async def get_es():
+    es = AsyncElasticsearch(
+        hosts=list(ES_HOSTS),
+        basic_auth=("elastic", str(ES_PASSWORD)),
+    )
+    yield es
+    await es.close()
+
+
+@pytest.fixture()
+async def es():
+    async with get_es() as es:
+        yield es
 
 
 @pytest.fixture(scope="session")
-def event_loop():
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
-
-
-@pytest.fixture
-def vulnerabilities():
+def vulns():
     return VulnerabilityFactory.from_directory("tests/fixtures/advisories/")
 
 
-def check_redis_host(redis_url: DatabaseURL = settings.REDIS_OM_URL):
-    if redis_url.hostname in ["127.0.0.1", "localhost", "0.0.0.0"]:
-        return True
-
-    raise Exception("You should not run tests with non-local Redis!")
-
-
-@pytest_asyncio.fixture
-async def setup_redis(vulnerabilities: list[models.Vulnerability]):
-    check_redis_host()
-    # setup migrations for using redis-om
-    await setup_redis_om()
-
-    # save OSV data for testing
-    for v in vulnerabilities:
-        v_ = await crud.vulnerability.get_by_id(v.id)
-
-        if v_ is None:
-            await crud.vulnerability.save(v)
+@pytest.fixture(scope="session")
+async def _setup_vulns(vulns: list[schemas.Vulnerability], docker_compose):
+    async with get_es() as es:
+        await crud.vulnerability.bulk_index(es, vulns, refresh=True)
 
 
-@pytest.fixture
-def app(setup_redis):
-    app = create_app(add_event_handlers=False)
-    yield app
+@pytest.fixture()
+def app(_setup_vulns, es: AsyncElasticsearch, docker_compose):
+    app = create_app(set_lifespan=False)
+    app.dependency_overrides[deps.get_es] = lambda: es
+    return app
 
 
-@pytest_asyncio.fixture
+@pytest.fixture()
 async def client(app: FastAPI):
-    async with AsyncClient(app=app, base_url="http://test") as client:
+    async with httpx.AsyncClient(
+        transport=httpx.ASGITransport(app=app),  # type: ignore
+        base_url="http://test",
+    ) as client:
         yield client

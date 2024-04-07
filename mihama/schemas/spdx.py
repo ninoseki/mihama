@@ -1,7 +1,8 @@
+from packageurl import PackageURL
 from pydantic import Field
 
-from . import osv
 from .api_model import APIModel
+from .osv import BatchQuery, Query, QueryPackage
 
 
 class ExternalRef(APIModel):
@@ -18,11 +19,12 @@ class ExternalRef(APIModel):
         description="Type of the external reference. These are defined in an appendix in the SPDX specification.",
     )
 
-    def to_query(self) -> osv.Query | None:
+    def to_query(self) -> Query | None:
         if self.reference_type != "purl":
             return None
 
-        return osv.Query(package=osv.Package(purl=self.reference_locator))
+        purl = PackageURL.from_string(self.reference_locator)
+        return Query(package=QueryPackage(purl=str(purl)))
 
 
 class Package(APIModel):
@@ -31,7 +33,7 @@ class Package(APIModel):
         description="An External Reference allows a Package to reference an external source of additional information, metadata, enumerations, asset identifiers, or downloadable content believed to be relevant to the Package.",
     )
 
-    def to_queries(self) -> list[osv.Query]:
+    def to_queries(self) -> list[Query]:
         queries = [external_ref.to_query() for external_ref in self.external_refs]
         return [q for q in queries if q is not None]
 
@@ -41,9 +43,9 @@ class SPDX(APIModel):
         default_factory=list, description="Packages referenced in the SPDX document"
     )
 
-    def to_batch_query(self) -> osv.BatchQuery:
-        queries: list[osv.Query] = []
+    def to_queries(self) -> BatchQuery:
+        queries: list[Query] = []
         for package in self.packages:
             queries.extend(package.to_queries())
 
-        return osv.BatchQuery(queries=queries)
+        return BatchQuery(queries=queries)

@@ -24,8 +24,8 @@ def _clean_purl(purl: PackageURL) -> PackageURL:
 
 
 def normalize_package(
-    package: schemas.BasePackage | schemas.Package,
-) -> schemas.BasePackage | schemas.Package:
+    package: schemas.QueryPackage | schemas.SearchPackage,
+) -> schemas.QueryPackage | schemas.SearchPackage:
     purl: PackageURL | None = None
 
     if package.purl is None:
@@ -34,7 +34,7 @@ def normalize_package(
     parsed_purl = PackageURL.from_string(package.purl)
     purl = _clean_purl(parsed_purl)
 
-    normalized = package.copy(deep=True)
+    normalized = package.model_copy(deep=True)
     normalized.purl = str(purl)
 
     return normalized
@@ -52,7 +52,7 @@ def normalize_query(query: schemas.Query):
         purl_version = cast(Optional[str], parsed_purl.version)
         purl = _clean_purl(parsed_purl)
 
-    normalized = query.copy(deep=True)
+    normalized = query.model_copy(deep=True)
     if normalized.package is not None and purl is not None:
         normalized.package.purl = str(purl)
 

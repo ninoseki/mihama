@@ -5,47 +5,30 @@ on: ["pull_request", "push"]
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    services:
-      redis:
-        image: "redis/redis-stack:6.2.6-v7"
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     strategy:
       matrix:
         python-version: ["3.11"]
-        poetry-version: ["1.6.1"]
-
+        poetry-version: ["1.8.2"]
     steps:
+      - name: Configure sysctl limits
+        run: |
+          sudo swapoff -a
+          sudo sysctl -w vm.swappiness=1
+          sudo sysctl -w fs.file-max=262144
+          sudo sysctl -w vm.max_map_count=262144
+      - name: Runs Elasticsearch
+        uses: elastic/elastic-github-actions/elasticsearch@master
+        with:
+          stack-version: 8.3.0
+          security-enabled: false
       - uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: sudo apt-get -yqq install build-essential
-
-      - name: Setup poetry
-        uses: abatilo/actions-poetry@v2
+      - name: "Setup Python, Poetry and Dependencies"
+        uses: packetcoders/action-setup-cache-python-poetry@main
         with:
-          poetry-version: ${{ matrix.poetry-version }}
-
-      - uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-          cache: "poetry"
-
-      - name: Install Python dependencies
-        env:
-          PYTHON_KEYRING_BACKEND: keyring.backends.null.Keyring
-        run: poetry install
-
+          python-version: ${{matrix.python-version}}
+          poetry-version: ${{matrix.poetry-version}}
       - name: Run tests
         env:
-          REDIS_OM_URL: redis://localhost:6379
-          REDIS_CACHE_URL: redis://localhost:6379
-          ARQ_REDIS_URL: redis://localhost:6379
+          ES_HOSTS: http://localhost:9200
+          ES_PASSWORD: changeme
         run: poetry run pytest

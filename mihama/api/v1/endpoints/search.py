@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter
 
-from mihama import crud, schemas
+from mihama import crud, deps, schemas
 from mihama.query import normalize_package
 
 router = APIRouter()
@@ -8,22 +8,17 @@ router = APIRouter()
 
 @router.post(
     "/package",
-    response_model=schemas.SearchResults,
     response_model_exclude_none=True,
     description="Search by package",
 )
 async def search_by_package(
-    package: schemas.BasePackage,
+    query: schemas.SearchQuery,
+    size: int = 1000,
     *,
-    limit: int = Query(10, ge=1, le=100),
-    offset: int = Query(0, ge=0)
+    es: deps.Elasticsearch,
 ) -> schemas.SearchResults:
-    normalized = normalize_package(package)
+    normalized = normalize_package(query.package)
 
-    count = await crud.vulnerability.count_by_package(normalized)
-    vulns = await crud.vulnerability.search_by_package(
-        normalized, limit=limit, offset=offset
-    )
-    return schemas.SearchResults(
-        vulns=[schemas.Vulnerability.parse_obj(v) for v in vulns], total=count
-    )
+    count = await crud.vulnerability.count_by_package(es, normalized)
+    vulns = await crud.vulnerability.search_by_package(es, normalized, size=size)
+    return schemas.SearchResults(vulns=vulns, total=count)

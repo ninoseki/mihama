@@ -1,6 +1,7 @@
+from packageurl import PackageURL
 from pydantic import BaseModel, Field
 
-from .osv import BatchQuery, Package, Query
+from .osv import BatchQuery, Query, QueryPackage
 
 
 class Component(BaseModel):
@@ -24,7 +25,10 @@ class Component(BaseModel):
         if self.purl is None:
             return None
 
-        return Query(package=Package(purl=self.purl))
+        purl = PackageURL.from_string(self.purl)
+        return Query(
+            package=QueryPackage(name=purl.name, ecosystem=purl.type, purl=str(purl))
+        )
 
 
 class CycloneDX(BaseModel):
@@ -32,7 +36,7 @@ class CycloneDX(BaseModel):
         default_factory=list, description="A list of software and hardware component"
     )
 
-    def to_batch_query(self) -> BatchQuery:
+    def to_queries(self) -> BatchQuery:
         components: list[Component] = []
         for c in self.components:
             components.extend(c.get_flatten_components())
