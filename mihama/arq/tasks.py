@@ -33,7 +33,7 @@ async def update_by_ecosystem(
 ):
     vulns = VulnerabilityFactory.by_ecosystem(ecosystem)
 
-    logger.info(f"osv.dev's {ecosystem} ecosystem has {len(vulns)} vulnerabilities.")
+    logger.info(f"{ecosystem} ecosystem has {len(vulns)} vulnerabilities.")
     await update_vulns(es, vulns, overwrite=overwrite)
     logger.info(f"Updated {len(vulns)} {ecosystem} ecosystem vulnerabilities.")
 

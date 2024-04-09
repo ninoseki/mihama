@@ -11,6 +11,7 @@ def bom():
 
 
 @pytest.mark.asyncio()
+@pytest.mark.usefixtures("_setup_vulns")
 async def test_spdx(client: AsyncClient, bom: schemas.SPDX):
     res = await client.post("/v1/spdx/querybatch", json=bom.model_dump())
     results = res.json().get("results", [])

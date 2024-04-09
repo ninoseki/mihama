@@ -11,6 +11,7 @@ def bom():
 
 
 @pytest.mark.asyncio()
+@pytest.mark.usefixtures("_setup_vulns")
 async def test_cyclonedx(client: AsyncClient, bom: schemas.CycloneDX):
     res = await client.post("/v1/cyclonedx/querybatch", json=bom.model_dump())
     results = res.json().get("results", [])

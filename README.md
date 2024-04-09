@@ -1,6 +1,6 @@
 # mihama
 
-An [osv.dev](https://osv.dev/) clone for on-premise usage.
+An [osv.dev](https://osv.dev/) clone for on-premise usage with extra features.
 
 ## Why?
 
