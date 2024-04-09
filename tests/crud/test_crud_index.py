@@ -5,6 +5,7 @@ from mihama import crud
 
 
 @pytest.mark.asyncio()
-async def test_exists(es: AsyncElasticsearch, docker_compose):
+@pytest.mark.usefixtures("docker_compose")
+async def test_exists(es: AsyncElasticsearch):
     got = await crud.index.exists(es, index="404_not_found")
     assert got is False

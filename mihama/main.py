@@ -1,13 +1,14 @@
+import contextlib
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import ORJSONResponse
+from fastapi.staticfiles import StaticFiles
 from loguru import logger
 
 from . import crud, deps, settings
 from .api.v1.api import api_router
-from .views import view_router
 
 
 @asynccontextmanager
@@ -47,8 +48,10 @@ def create_app(set_lifespan: bool = True) -> FastAPI:
     app.add_middleware(GZipMiddleware, minimum_size=1000)
 
     # add routes
-    app.include_router(view_router)
     app.include_router(api_router, prefix="/v1")
+
+    with contextlib.suppress(Exception):
+        app.mount("/", StaticFiles(html=True, directory="frontend/dist/"), name="index")
 
     return app
 

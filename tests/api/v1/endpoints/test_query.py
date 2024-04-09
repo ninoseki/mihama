@@ -5,6 +5,7 @@ from mihama import schemas
 
 
 @pytest.mark.asyncio()
+@pytest.mark.usefixtures("_setup_vulns")
 async def test_query(client: AsyncClient, vulns: list[schemas.Vulnerability]):
     for v in vulns:
         for affected in v.affected:
@@ -21,6 +22,7 @@ async def test_query(client: AsyncClient, vulns: list[schemas.Vulnerability]):
 
 
 @pytest.mark.asyncio()
+@pytest.mark.usefixtures("_setup_vulns")
 async def test_querybatch(client: AsyncClient, vulns: list[schemas.Vulnerability]):
     queries = []
     for v in vulns:
