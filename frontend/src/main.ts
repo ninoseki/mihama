@@ -1,5 +1,6 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faMoon, faSearch, faSpinner, faSun } from '@fortawesome/free-solid-svg-icons'
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import 'bulma-helpers/css/bulma-helpers.min.css'
 import 'bulma/css/bulma.css'
@@ -9,7 +10,7 @@ import { createApp } from 'vue'
 import App from '@/App.vue'
 import router from '@/router'
 
-library.add(faSearch, faSpinner, faSun, faMoon)
+library.add(faSearch, faSpinner, faSun, faMoon, faCaretDown)
 
 const app = createApp(App)
 

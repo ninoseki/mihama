@@ -3,6 +3,7 @@ import { type PropType, computed } from 'vue'
 import VueJsonPretty from 'vue-json-pretty'
 import 'vue-json-pretty/lib/styles.css'
 
+import Versions from '@/components/VersionsItem.vue'
 import { type AffectedType } from '@/schemas'
 
 const props = defineProps({
@@ -71,9 +72,7 @@ const getEventValue = (event: any) => {
     <tr v-if="versions.length > 0">
       <th>Affected versions</th>
       <td>
-        <div class="tags">
-          <span class="tag" v-for="v in versions" :key="v">{{ v }}</span>
-        </div>
+        <Versions :versions="versions" />
       </td>
     </tr>
     <tr v-if="affected.ecosystem_specific">

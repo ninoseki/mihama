@@ -58,7 +58,7 @@ watch(ecosystem, async () => {
         <input class="input" type="text" placeholder="Package or ID" v-model="q" />
       </p>
       <p class="control">
-        <a class="button is-primary" @click="newSearch">
+        <a class="button" @click="newSearch">
           <span class="icon is-small">
             <font-awesome-icon icon="search" />
           </span>

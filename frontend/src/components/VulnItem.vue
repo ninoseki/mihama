@@ -53,6 +53,12 @@ onMounted(() => {
         </ul>
       </td>
     </tr>
+    <tr v-if="vuln.withdrawn">
+      <th class="has-text-danger">Withdrawn</th>
+      <td class="has-text-danger">
+        {{ vuln.withdrawn }}
+      </td>
+    </tr>
     <tr v-if="vuln.published">
       <th>Published</th>
       <td>
