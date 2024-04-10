@@ -12,7 +12,7 @@ import { type SearchResultsType, type VulnerabilityType } from '@/schemas'
 
 const ecosystem = useRouteQuery<string | undefined>('ecosystem', undefined)
 const q = useRouteQuery<string | undefined>('q', undefined)
-const searchAfter = ref<number[]>()
+const searchAfter = ref<(string | number)[]>()
 const vulns = ref<VulnerabilityType[]>([])
 const total = ref(0)
 

@@ -9,5 +9,5 @@ from .osv import (  # noqa: F401
     Vulnerabilities,
     Vulnerability,
 )
-from .search import SearchPackage, SearchQuery, SearchResults  # noqa: F401
+from .search import SearchQuery, SearchResults  # noqa: F401
 from .spdx import SPDX  # noqa: F401

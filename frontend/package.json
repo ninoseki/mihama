@@ -23,6 +23,7 @@
     "bulma": "^1.0.0",
     "bulma-extensions": "^6.2.7",
     "bulma-helpers": "^0.4.3",
+    "change-case": "^5.4.4",
     "font-awesome-animation": "^1.1.1",
     "markdown-it": "^14.1.0",
     "neverthrow": "^6.1.0",

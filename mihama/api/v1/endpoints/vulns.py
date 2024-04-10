@@ -6,22 +6,23 @@ from mihama import crud, deps, schemas
 router = APIRouter()
 
 
-@router.get(
+@router.post(
     "/",
     response_model_exclude_none=True,
 )
 async def search(
-    ecosystem: str | None = None,
-    q: str | None = None,
-    search_after: list[int] | None = None,
+    query: schemas.SearchQuery,
     *,
     es: deps.Elasticsearch,
 ) -> schemas.SearchResults:
     count = await crud.vulnerability.count(
-        es, ecosystem=ecosystem, id_or_package_name=q
+        es, ecosystem=query.ecosystem, id_or_package_name=query.q
     )
     vulns = await crud.vulnerability.search(
-        es, ecosystem=ecosystem, id_or_package_name=q, search_after=search_after
+        es,
+        ecosystem=query.ecosystem,
+        id_or_package_name=query.q,
+        search_after=query.search_after,
     )
     return schemas.SearchResults(vulns=vulns, total=count)
 

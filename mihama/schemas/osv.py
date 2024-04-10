@@ -16,7 +16,6 @@ from semver.version import Version
 
 from mihama.utils import safe_parse_version
 
-from .api_model import APIModel
 from .types import OptionalPurl
 
 
@@ -216,7 +215,7 @@ class Credit(BaseModel):
     contact: list[str] | None = None
 
 
-class Vulnerability(APIModel):
+class Vulnerability(BaseModel):
     id: str
     schema_version: str | None = None
     modified: datetime
@@ -232,7 +231,7 @@ class Vulnerability(APIModel):
     credits: list[Credit] | None = None
     database_specific: dict[str, Any] | None = None
 
-    sort: list[int] | None = Field(default=None)
+    sort: list[int | str] | None = Field(default=None)
 
     def is_affected_package_version(
         self, *, package: Package | QueryPackage, version: str
@@ -258,7 +257,7 @@ class Query(BaseModel):
         description="The package to query against. When a commit hash is given, this is optional.",
     )
 
-    search_after: list[int] | None = Field(default=None)
+    search_after: list[int | str] | None = Field(default=None)
 
     @property
     def package_purl(self) -> PackageURL | None:
@@ -299,11 +298,11 @@ class SimplifiedVulnerability(BaseModel):
     modified: datetime
 
 
-class SimplifiedVulnerabilities(APIModel):
+class SimplifiedVulnerabilities(BaseModel):
     vulns: list[SimplifiedVulnerability]
 
 
-class Vulnerabilities(APIModel):
+class Vulnerabilities(BaseModel):
     vulns: list[Vulnerability]
 
     def simplify(self) -> SimplifiedVulnerabilities:

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import * as changeKeys from 'change-case/keys'
 
 import {
   EcosystemsSchema,
@@ -24,15 +25,16 @@ export const API = {
   }: {
     ecosystem?: string
     q?: string
-    searchAfter?: number[]
+    searchAfter?: (number | string)[]
   }): Promise<SearchResultsType> {
-    const res = await client.get(`/v1/vulns/`, {
-      params: {
+    const res = await client.post(
+      `/v1/vulns/`,
+      changeKeys.snakeCase({
         ecosystem,
         q,
         searchAfter
-      }
-    })
+      })
+    )
     return SearchResultsSchema.parse(res.data)
   },
 
