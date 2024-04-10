@@ -25,7 +25,7 @@ const change = (newEcosystem?: string) => {
 <template>
   <div class="field is-grouped is-grouped-multiline">
     <div class="control">
-      <div class="tags has-addons are-medium" @click="change(undefined)">
+      <div class="tags has-addons" @click="change(undefined)">
         <span class="tag" :class="{ 'is-info is-light': ecosystem === undefined }"
           >All ecosystems</span
         >
@@ -33,7 +33,7 @@ const change = (newEcosystem?: string) => {
       </div>
     </div>
     <div class="control" v-for="e in ecosystems.ecosystems" :key="e.name">
-      <div class="tags has-addons are-medium" @click="change(e.name)">
+      <div class="tags has-addons" @click="change(e.name)">
         <span class="tag" :class="{ 'is-info is-light': ecosystem === e.name }">{{ e.name }}</span>
         <span class="tag is-ghost has-text-weight-bold">{{ e.total }}</span>
       </div>
