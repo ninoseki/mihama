@@ -24,8 +24,8 @@ def _clean_purl(purl: PackageURL) -> PackageURL:
 
 
 def normalize_package(
-    package: schemas.QueryPackage | schemas.SearchPackage,
-) -> schemas.QueryPackage | schemas.SearchPackage:
+    package: schemas.QueryPackage,
+) -> schemas.QueryPackage:
     purl: PackageURL | None = None
 
     if package.purl is None:

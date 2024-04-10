@@ -22,9 +22,9 @@ async def test_search(client: AsyncClient, vulns: list[schemas.Vulnerability]):
             if affected.package is None:
                 continue
 
-            res = await client.get(
+            res = await client.post(
                 "/v1/vulns/",
-                params={
+                json={
                     "ecosystem": affected.package.ecosystem,
                     "name": affected.package.name,
                 },

@@ -43,7 +43,7 @@ export const AffectedSchema = z.object({
 export type AffectedType = z.infer<typeof AffectedSchema>
 
 export const VulnerabilitySchema = z.object({
-  sort: z.array(z.number()).optional(),
+  sort: z.array(z.union([z.number(), z.string()])).optional(),
   schema_version: z.string().optional(),
   id: z.string(),
   modified: z.any(),
