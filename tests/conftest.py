@@ -1,3 +1,4 @@
+import contextlib
 import os
 from contextlib import asynccontextmanager
 
@@ -29,6 +30,14 @@ def docker_compose_file(pytestconfig):
     return os.path.join(str(pytestconfig.rootdir), "test.docker-compose.yml")
 
 
+def ping(url: str):
+    with contextlib.suppress(Exception):
+        httpx.get(url)
+        return True
+
+    return False
+
+
 if ci.is_ci():
 
     @pytest.fixture(scope="session")
@@ -40,15 +49,8 @@ else:
     def docker_compose(  # type; ignore # noqa: PT004
         docker_services: Services,
     ):  # type: ignore
-        def ping():
-            try:
-                httpx.get(ES_HOSTS[0])
-                return True
-            except Exception:
-                return False
-
         docker_services.wait_until_responsive(
-            timeout=30.0, pause=0.1, check=lambda: ping()
+            timeout=30.0, pause=0.1, check=lambda: ping(ES_HOSTS[0])
         )
 
 
