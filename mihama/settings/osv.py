@@ -1,3 +1,5 @@
+import contextlib
+
 import httpx
 from starlette.datastructures import CommaSeparatedStrings
 
@@ -66,14 +68,14 @@ def get_osv_ecosystems(
     *,
     default=DEFAULT_OSV_ECOSYSTEMS,
 ) -> CommaSeparatedStrings:
-    try:
+    with contextlib.suppress(httpx.HTTPError):
         res = httpx.get(url)
         res.raise_for_status()
 
         text = res.text
         return CommaSeparatedStrings([line.strip() for line in text.splitlines()])
-    except httpx.HTTPError:
-        return default
+
+    return default
 
 
 OSV_BUCKET_BASE_URL: str = config(
