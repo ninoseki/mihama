@@ -143,10 +143,7 @@ class Range(BaseModel):
             if self.is_fixed(semver_version):
                 return False
 
-            if self.is_no_longer_affected(semver_version):
-                return False
-
-            return True
+            return not self.is_no_longer_affected(semver_version)
 
         result: ResultE[bool] = flow(version, safe_parse_version, bind(inner))
         return result.value_or(False)

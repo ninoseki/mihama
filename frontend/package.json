@@ -29,10 +29,10 @@
     "neverthrow": "^6.2.2",
     "semver": "^7.6.2",
     "uuidv4": "^6.2.13",
-    "vue": "^3.4.29",
+    "vue": "^3.4.31",
     "vue-concurrency": "^5.0.1",
     "vue-json-pretty": "^2.4.0",
-    "vue-router": "^4.3.3",
+    "vue-router": "^4.4.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -40,7 +40,8 @@
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^20.14.2",
+    "@types/markdown-it": "^14.1.1",
+    "@types/node": "^20.14.10",
     "@types/semver": "^7.5.8",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vue/eslint-config-prettier": "^9.0.0",
@@ -48,14 +49,15 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.57.0",
-    "eslint-plugin-vue": "^9.26.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-vue": "^9.27.0",
     "jsdom": "^24.1.0",
-    "npm-run-all2": "^6.2.0",
+    "npm-run-all2": "^6.2.2",
     "prettier": "^3.3.2",
-    "typescript": "~5.4.5",
-    "vite": "^5.3.1",
-    "vite-plugin-vue-devtools": "^7.2.1",
+    "typescript": "~5.5.3",
+    "vite": "^5.3.3",
+    "vite-plugin-vue-devtools": "^7.3.5",
     "vitest": "^1.6.0",
-    "vue-tsc": "^2.0.21"
+    "vue-tsc": "^2.0.26"
   }
 }

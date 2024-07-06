@@ -7,7 +7,7 @@ from mihama.utils import cast_csv
 
 from .config import config
 
-REDIS_URL: DatabaseURL = config(
+REDIS_URL: DatabaseURL = config(  # type: ignore
     "REDIS_URL",
     cast=DatabaseURL,
     default="redis://localhost:6379",
@@ -33,12 +33,13 @@ ARQ_CRON_JOBS_RUN_AT_START_UP: bool = config(
 )
 ARQ_CRON_JOBS_HOUR = set(
     cast_csv(
-        config("ARQ_CRON_JOBS_HOUR", cast=CommaSeparatedStrings, default="0"), cast=int
+        config("ARQ_CRON_JOBS_HOUR", cast=CommaSeparatedStrings, default="0"),  # type: ignore
+        cast=int,
     )
 )
 ARQ_CRON_JOBS_MINUTE = set(
     cast_csv(
-        config("ARQ_CRON_JOBS_MINUTE", cast=CommaSeparatedStrings, default="0"),
+        config("ARQ_CRON_JOBS_MINUTE", cast=CommaSeparatedStrings, default="0"),  # type: ignore
         cast=int,
     )
 )
