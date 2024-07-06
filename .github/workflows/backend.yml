@@ -62,7 +62,6 @@ jobs:
           python-version: ${{matrix.python-version}}
           poetry-version: ${{matrix.poetry-version}}
       - run: poetry run poetry check
-      - run: poetry run poetry sort
       - run: poetry run ruff format
       - run: poetry run ruff check
       - run: poetry run pyupgrade --py311-plus mihama/**/*.py tests/**/*.py
