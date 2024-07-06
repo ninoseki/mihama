@@ -34,6 +34,5 @@ pre-commit:
       run: npx prettier --write {staged_files}
       stage_fixed: true
     actionlint:
-      root: ".github/workflows/"
       glob: ".github/workflows/*.{yml,yaml}"
-      run: actionlint
+      run: actionlint {staged_files}
