@@ -35,4 +35,4 @@ jobs:
       - name: Run type-check
         run: npm run type-check
       - name: Run ESLint
-        run: NODE_ENV=production npx eslint
+        run: NODE_ENV=production npm run lint
