@@ -4,19 +4,19 @@ on:
   push:
     branches: [main]
     paths:
-      - ".github/workflows/backend.yml"
-      - "mihama/**"
-      - "poetry.lock"
-      - "pyproject.toml"
-      - "requirements.txt"
+      - .github/workflows/backend.yml
+      - mihama/**
+      - poetry.lock
+      - pyproject.toml
+      - requirements.txt
   pull_request:
     branches: [main]
     paths:
-      - ".github/workflows/backend.yml"
-      - "mihama/**"
-      - "poetry.lock"
-      - "pyproject.toml"
-      - "requirements.txt"
+      - .github/workflows/backend.yml
+      - mihama/**
+      - poetry.lock
+      - pyproject.toml
+      - requirements.txt
 
 jobs:
   test:
