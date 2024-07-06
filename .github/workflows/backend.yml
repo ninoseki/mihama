@@ -1,0 +1,69 @@
+name: Backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/backend.yml"
+      - "backend/**"
+      - "poetry.lock"
+      - "pyproject.toml"
+      - "requirements.txt"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/backend.yml"
+      - "backend/**"
+      - "poetry.lock"
+      - "pyproject.toml"
+      - "requirements.txt"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+        poetry-version: ["1.8.3"]
+    steps:
+      - name: Configure sysctl limits
+        run: |
+          sudo swapoff -a
+          sudo sysctl -w vm.swappiness=1
+          sudo sysctl -w fs.file-max=262144
+          sudo sysctl -w vm.max_map_count=262144
+      - name: Runs Elasticsearch
+        uses: elastic/elastic-github-actions/elasticsearch@master
+        with:
+          stack-version: 8.3.0
+          security-enabled: false
+      - uses: actions/checkout@v4
+      - name: "Setup Python, Poetry and Dependencies"
+        uses: packetcoders/action-setup-cache-python-poetry@v1.2.0
+        with:
+          python-version: ${{matrix.python-version}}
+          poetry-version: ${{matrix.poetry-version}}
+      - name: Run tests
+        env:
+          ES_HOSTS: http://localhost:9200
+          ES_PASSWORD: changeme
+        run: poetry run pytest
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11"]
+        poetry-version: ["1.8.3"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Setup Python, Poetry and Dependencies"
+        uses: packetcoders/action-setup-cache-python-poetry@v1.2.0
+        with:
+          python-version: ${{matrix.python-version}}
+          poetry-version: ${{matrix.poetry-version}}
+      - run: poetry run poetry check
+      - run: poetry run poetry sort
+      - run: poetry run ruff format
+      - run: poetry run ruff check
+      - run: poetry run pyupgrade --py311-plus mihama/**/*.py tests/**/*.py
+      - run: poetry run mypy mihama/**/*.py tests/**/*.py

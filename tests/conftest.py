@@ -17,9 +17,11 @@ from mihama.main import create_app
 config = Config()
 
 ES_HOSTS: CommaSeparatedStrings = config(
-    "ES_HOSTS", cast=CommaSeparatedStrings, default="http://localhost:9200"
+    "ES_HOSTS",
+    cast=CommaSeparatedStrings,
+    default="http://localhost:9200",  # type: ignore
 )
-ES_PASSWORD: Secret = config("ES_PASSWORD", cast=Secret, default="changeme")
+ES_PASSWORD: Secret = config("ES_PASSWORD", cast=Secret, default="changeme")  # type: ignore
 
 
 @pytest.fixture(scope="session")

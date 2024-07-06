@@ -25,6 +25,6 @@ PROJECT_DESCRIPTION: str = config("PROJECT_DESCRIPTION", default="osv.dev API cl
 DEBUG: bool = config("DEBUG", cast=bool, default=False)
 TESTING: bool = config("TESTING", cast=bool, default=False)
 
-LOG_FILE = config("LOG_FILE", default=sys.stderr)
+LOG_FILE = config("LOG_FILE", default=sys.stderr)  # type: ignore
 LOG_LEVEL: str = config("LOG_LEVEL", cast=str, default="DEBUG")
 LOG_BACKTRACE: bool = config("LOG_BACKTRACE", cast=bool, default=True)
