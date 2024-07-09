@@ -4,7 +4,7 @@ An [osv.dev](https://osv.dev/) clone for on-premise usage with extra features.
 
 ## Why?
 
-[google/osv.dev](https://github.com/google/osv.dev) is an OSS project. But it's tightly coupled with GCP. This makes it difficult for a non-GCP user is difficult to deploy their own osv.dev in their premise.
+[google/osv.dev](https://github.com/google/osv.dev) is an OSS project. But it's tightly coupled with GCP. It makes it difficult to deploy your own osv.dev if you are not a GCP user.
 
 ## Overview
 
