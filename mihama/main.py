@@ -10,6 +10,8 @@ from loguru import logger
 from . import crud, deps, settings
 from .api.v1.api import api_router
 
+a: int | None = 100
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -28,21 +30,13 @@ def create_app(set_lifespan: bool = True) -> FastAPI:
         settings.LOG_FILE, level=settings.LOG_LEVEL, backtrace=settings.LOG_BACKTRACE
     )
 
-    if set_lifespan:
-        app = FastAPI(
-            debug=settings.DEBUG,
-            title=settings.PROJECT_NAME,
-            description=settings.PROJECT_DESCRIPTION,
-            default_response_class=ORJSONResponse,
-            lifespan=lifespan,
-        )
-    else:
-        app = FastAPI(
-            debug=settings.DEBUG,
-            title=settings.PROJECT_NAME,
-            description=settings.PROJECT_DESCRIPTION,
-            default_response_class=ORJSONResponse,
-        )
+    app = FastAPI(
+        debug=settings.DEBUG,
+        title=settings.PROJECT_NAME,
+        description=settings.PROJECT_DESCRIPTION,
+        default_response_class=ORJSONResponse,
+        lifespan=lifespan if set_lifespan else None,
+    )
 
     # add middleware
     app.add_middleware(GZipMiddleware, minimum_size=1000)
