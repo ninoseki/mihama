@@ -4,7 +4,7 @@ from httpx import AsyncClient
 from mihama import schemas
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.usefixtures("_setup_vulns")
 async def test_get_by_id(
     client: AsyncClient,
@@ -15,7 +15,7 @@ async def test_get_by_id(
         assert res.status_code == 200
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 async def test_search(client: AsyncClient, vulns: list[schemas.Vulnerability]):
     for v in vulns:
         for affected in v.affected:

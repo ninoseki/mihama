@@ -3,7 +3,7 @@ import pytest
 from mihama import schemas
 
 
-@pytest.fixture()
+@pytest.fixture
 def vuln():
     # versions: 3.2 to 5.2rc5
     with open("tests/fixtures/advisories/versions.json") as f:

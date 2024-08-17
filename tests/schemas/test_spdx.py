@@ -3,7 +3,7 @@ import pytest
 from mihama import schemas
 
 
-@pytest.fixture()
+@pytest.fixture
 def spdx():
     # this file contains one PURL package only
     with open("tests/fixtures/spdx/example.json") as f:
