@@ -3,14 +3,14 @@ import pytest
 from mihama import schemas
 
 
-@pytest.fixture()
+@pytest.fixture
 def vuln():
     # the vulnerability has multiple packages in affected
     with open("tests/fixtures/advisories/multi_packages_fixed.json") as f:
         return schemas.Vulnerability.model_validate_json(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def plone_package():
     return schemas.Package(ecosystem="PyPI", name="Plone")
 

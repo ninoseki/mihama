@@ -3,7 +3,7 @@ import pytest
 from mihama import schemas
 
 
-@pytest.fixture()
+@pytest.fixture
 def vuln():
     # introduced: 0
     # last_affected: 4.1.0

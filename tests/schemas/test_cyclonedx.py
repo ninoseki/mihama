@@ -4,7 +4,7 @@ from mihama import schemas
 from mihama.schemas.cyclonedx import Component
 
 
-@pytest.fixture()
+@pytest.fixture
 def nested_component():
     # NOTE: it has 5 components in total (4 have purl, 1 does not have purl)
     with open("tests/fixtures/cyclonedx/nested_components.json") as f:
@@ -16,7 +16,7 @@ def test_get_flatten_components(nested_component: Component):
     assert len(flatten) == 5
 
 
-@pytest.fixture()
+@pytest.fixture
 def bom(nested_component: Component):
     return schemas.CycloneDX(components=[nested_component])
 

@@ -64,7 +64,7 @@ async def get_es():
     await es.close()
 
 
-@pytest.fixture()
+@pytest.fixture
 async def es():
     async with get_es() as es:
         yield es
@@ -81,14 +81,14 @@ async def _setup_vulns(vulns: list[schemas.Vulnerability], docker_compose):
         await crud.vulnerability.bulk_index(es, vulns, refresh=True)
 
 
-@pytest.fixture()
+@pytest.fixture
 def app(_setup_vulns, es: AsyncElasticsearch, docker_compose):
     app = create_app(set_lifespan=False)
     app.dependency_overrides[deps.get_es] = lambda: es
     return app
 
 
-@pytest.fixture()
+@pytest.fixture
 async def client(app: FastAPI):
     async with httpx.AsyncClient(
         transport=httpx.ASGITransport(app=app),  # type: ignore

@@ -4,7 +4,7 @@ from httpx import AsyncClient
 from mihama import schemas
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.usefixtures("_setup_vulns")
 async def test_query(client: AsyncClient, vulns: list[schemas.Vulnerability]):
     for v in vulns:
@@ -21,7 +21,7 @@ async def test_query(client: AsyncClient, vulns: list[schemas.Vulnerability]):
                 assert len(vulns) > 0
 
 
-@pytest.mark.asyncio()
+@pytest.mark.asyncio
 @pytest.mark.usefixtures("_setup_vulns")
 async def test_querybatch(client: AsyncClient, vulns: list[schemas.Vulnerability]):
     queries = []
